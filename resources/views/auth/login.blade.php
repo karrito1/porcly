@@ -13,7 +13,7 @@
 
         {{-- Logo --}}
         <div class="auth-logo">
-            <img src="{{ asset('img/logo_porcly.png') }}" alt="Nexa">
+            <img src="{{ asset('img/logo_porcly.png') }}" alt="Porcly">
         </div>
 
         {{-- Encabezado --}}
@@ -128,7 +128,7 @@
             ¿No tienes cuenta? <a href="{{ route('register') }}">Regístrate aquí</a>
         </p>
 
-        <p class="auth-copyright">© {{ date('Y') }} Nexa. Todos los derechos reservados.</p>
+        <p class="auth-copyright">© {{ date('Y') }} Porcly. Todos los derechos reservados.</p>
     </div>
 </div>
 
