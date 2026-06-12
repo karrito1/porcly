@@ -63,10 +63,10 @@
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                <button id="mobile-menu-button" @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        <path id="hamburger-icon-lines" :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        <path id="hamburger-icon-close" :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
@@ -74,7 +74,8 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div x-show="open" 
+    <div id="mobile-menu"
+         x-show="open" 
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0 -translate-y-4"
          x-transition:enter-end="opacity-100 translate-y-0"
@@ -132,4 +133,48 @@
             </div>
         </div>
     </div>
+
+    <!-- Vanilla JS Fallback to ensure the menu works even if Alpine.js fails or is blocked -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const button = document.getElementById('mobile-menu-button');
+            const menu = document.getElementById('mobile-menu');
+            const lines = document.getElementById('hamburger-icon-lines');
+            const closeIcon = document.getElementById('hamburger-icon-close');
+            
+            if (button && menu) {
+                button.addEventListener('click', function (e) {
+                    // Prevent default behavior
+                    e.preventDefault();
+                    
+                    // Toggle visibility
+                    const isHidden = menu.style.display === 'none' || menu.classList.contains('hidden');
+                    
+                    if (isHidden) {
+                        menu.style.setProperty('display', 'block', 'important');
+                        menu.classList.remove('hidden');
+                        if (lines) {
+                            lines.classList.add('hidden');
+                            lines.classList.remove('inline-flex');
+                        }
+                        if (closeIcon) {
+                            closeIcon.classList.remove('hidden');
+                            closeIcon.classList.add('inline-flex');
+                        }
+                    } else {
+                        menu.style.setProperty('display', 'none', 'important');
+                        menu.classList.add('hidden');
+                        if (lines) {
+                            lines.classList.remove('hidden');
+                            lines.classList.add('inline-flex');
+                        }
+                        if (closeIcon) {
+                            closeIcon.classList.add('hidden');
+                            closeIcon.classList.remove('inline-flex');
+                        }
+                    }
+                });
+            }
+        });
+    </script>
 </nav>
