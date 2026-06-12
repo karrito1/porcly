@@ -87,8 +87,8 @@
             </div>
 
             <!-- Interfaz de Navegación por Pestañas (Tabs) -->
-            <div class="mb-6 border-b border-gray-200">
-                <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+            <div class="mb-6 border-b border-gray-200 overflow-x-auto">
+                <nav class="-mb-px flex space-x-8 min-w-max" aria-label="Tabs">
                     <button onclick="switchTab('reproduccion')" id="tab-btn-reproduccion" class="tab-btn border-brand-500 text-brand-600 whitespace-nowrap py-4 px-1 border-b-2 font-bold text-sm" style="border-color: #f4b08a; color: #f4b08a;">
                         Historial Reproductivo
                     </button>
