@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Inseminacion;
 use App\Models\Cerda;
-use Illuminate\Http\Request;
+use App\Models\Inseminacion;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class InseminacionController extends Controller
 {
@@ -13,9 +13,19 @@ class InseminacionController extends Controller
     {
         $query = Inseminacion::with('cerda');
 
+        // Scope: activas (sin parto registrado) por defecto
+        $scope = $request->input('scope', 'activas');
+        if ($scope === 'activas') {
+            $query->whereDoesntHave('parto')
+                ->where(function ($q) {
+                    $q->whereNull('exitosa')
+                        ->orWhere('exitosa', true);
+                });
+        }
+
         if ($request->filled('buscar')) {
             $buscar = $request->input('buscar');
-            $query->whereHas('cerda', function($q) use ($buscar) {
+            $query->whereHas('cerda', function ($q) use ($buscar) {
                 $q->where('codigo', 'like', "%{$buscar}%");
             });
         }
@@ -33,14 +43,14 @@ class InseminacionController extends Controller
 
         $inseminaciones = $query->orderBy('fecha_inseminacion', 'desc')->paginate(10)->withQueryString();
 
-        return view('inseminaciones.index', compact('inseminaciones'));
+        return view('inseminaciones.index', compact('inseminaciones', 'scope'));
     }
 
     public function create(Request $request)
     {
         $cerdas = Cerda::whereNotIn('estado', ['descarte', 'gestante', 'lactante'])->orderBy('codigo')->get();
         $selected_cerda_id = $request->input('cerda_id');
-        
+
         return view('inseminaciones.create', compact('cerdas', 'selected_cerda_id'));
     }
 
@@ -77,7 +87,7 @@ class InseminacionController extends Controller
         $cerda->update(['estado' => 'gestante']);
 
         return redirect()->route('inseminaciones.index')
-            ->with('success', 'Inseminación registrada. Parto estimado: ' . $fechaPartoEstimada->format('d/m/Y') . '.');
+            ->with('success', 'Inseminación registrada. Parto estimado: '.$fechaPartoEstimada->format('d/m/Y').'.');
     }
 
     public function confirm(Request $request, Inseminacion $inseminacion)
@@ -89,7 +99,7 @@ class InseminacionController extends Controller
 
         $inseminacion->update([
             'exitosa' => $request->exitosa,
-            'notas' => $inseminacion->notas . "\n[Confirmación: " . ($request->exitosa ? 'Exitosa' : 'Fallida') . "] " . $request->notas
+            'notas' => $inseminacion->notas."\n[Confirmación: ".($request->exitosa ? 'Exitosa' : 'Fallida').'] '.$request->notas,
         ]);
 
         $cerda = $inseminacion->cerda;
@@ -101,6 +111,6 @@ class InseminacionController extends Controller
         }
 
         return redirect()->back()
-            ->with('success', 'Diagnóstico de gestación guardado. Cerda ' . $cerda->codigo . ' en estado: ' . ($request->exitosa ? 'Gestante' : 'En celo') . '.');
+            ->with('success', 'Diagnóstico de gestación guardado. Cerda '.$cerda->codigo.' en estado: '.($request->exitosa ? 'Gestante' : 'En celo').'.');
     }
 }

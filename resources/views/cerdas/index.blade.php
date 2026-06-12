@@ -4,7 +4,7 @@
             <h2 class="font-bold text-xl text-gray-800 leading-tight">
                 {{ __('Gestión del Hato — Cerdas') }}
             </h2>
-            <a href="{{ route('cerdas.create') }}" class="inline-flex items-center px-4 py-2 bg-brand-500 hover:bg-brand-650 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors duration-200" style="background-color: #f4b08a;">
+            <a href="{{ route('cerdas.create') }}" class="inline-flex items-center px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors duration-200">
                 Registrar Nueva Cerda
             </a>
         </div>
@@ -19,13 +19,13 @@
                     <!-- Búsqueda -->
                     <div class="md:col-span-2">
                         <label for="buscar" class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Buscar cerda</label>
-                        <input type="text" name="buscar" id="buscar" value="{{ request('buscar') }}" placeholder="Código (C-001) o Nombre..." class="w-full text-sm rounded-lg border-gray-250 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50">
+                        <input type="text" name="buscar" id="buscar" value="{{ request('buscar') }}" placeholder="Código (C-001) o Nombre..." class="w-full text-sm rounded-lg border-gray-300 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50">
                     </div>
                     
                     <!-- Estado -->
                     <div>
                         <label for="estado" class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Estado</label>
-                        <select name="estado" id="estado" class="w-full text-sm rounded-lg border-gray-250 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50">
+                        <select name="estado" id="estado" class="w-full text-sm rounded-lg border-gray-300 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50">
                             <option value="">Todos los estados</option>
                             <option value="activa" {{ request('estado') === 'activa' ? 'selected' : '' }}>Activa</option>
                             <option value="gestante" {{ request('estado') === 'gestante' ? 'selected' : '' }}>Gestante</option>
@@ -41,7 +41,7 @@
                             Filtrar
                         </button>
                         @if(request()->anyFilled(['buscar', 'estado', 'raza']))
-                            <a href="{{ route('cerdas.index') }}" class="w-full inline-flex justify-center items-center px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-750 text-xs font-bold rounded-lg border border-gray-200 shadow-sm transition-colors duration-150">
+                            <a href="{{ route('cerdas.index') }}" class="w-full inline-flex justify-center items-center px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-lg border border-gray-200 shadow-sm transition-colors duration-150">
                                 Limpiar
                             </a>
                         @endif
@@ -77,7 +77,7 @@
                                     <td class="py-4 px-6 text-sm text-gray-600">
                                         {{ $cerda->raza ?? 'N/A' }}
                                     </td>
-                                    <td class="py-4 px-6 text-sm text-gray-550">
+                                    <td class="py-4 px-6 text-sm text-gray-500">
                                         @if($cerda->fecha_nacimiento)
                                             {{ (int) now()->diffInMonths($cerda->fecha_nacimiento) }} m
                                             <span class="text-xs text-gray-400">({{ $cerda->fecha_nacimiento->format('d/m/Y') }})</span>
@@ -116,16 +116,16 @@
                                     </td>
                                     <td class="py-4 px-6 text-right text-sm">
                                         <div class="flex justify-end gap-2">
-                                            <a href="{{ route('cerdas.show', $cerda->id) }}" class="inline-flex items-center px-3 py-1 bg-gray-55/70 hover:bg-gray-100 text-gray-700 text-xs font-semibold border border-gray-200 rounded-lg transition-colors shadow-2xs">
+                                            <a href="{{ route('cerdas.show', $cerda->id) }}" class="inline-flex items-center px-3 py-1 bg-gray-50 hover:bg-gray-100 text-gray-700 text-xs font-semibold border border-gray-200 rounded-lg transition-colors shadow-sm">
                                                 Ficha
                                             </a>
-                                            <a href="{{ route('cerdas.edit', $cerda->id) }}" class="inline-flex items-center px-3 py-1 bg-white hover:bg-gray-50 text-gray-650 text-xs font-semibold border border-gray-200 rounded-lg transition-colors shadow-2xs">
+                                            <a href="{{ route('cerdas.edit', $cerda->id) }}" class="inline-flex items-center px-3 py-1 bg-white hover:bg-gray-50 text-gray-600 text-xs font-semibold border border-gray-200 rounded-lg transition-colors shadow-sm">
                                                 Editar
                                             </a>
                                             <form action="{{ route('cerdas.destroy', $cerda->id) }}" method="POST" onsubmit="return confirm('¿Está seguro de eliminar esta cerda del sistema? Se perderá todo su historial.')" class="inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="inline-flex items-center px-3 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-semibold border border-rose-250 rounded-lg transition-colors shadow-2xs">
+                                                <button type="submit" class="inline-flex items-center px-3 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-semibold border border-rose-200 rounded-lg transition-colors shadow-sm">
                                                     Eliminar
                                                 </button>
                                             </form>
@@ -144,7 +144,7 @@
                 </div>
 
                 @if($cerdas->hasPages())
-                    <div class="px-6 py-4 border-t border-gray-150">
+                    <div class="px-6 py-4 border-t border-gray-200">
                         {{ $cerdas->links() }}
                     </div>
                 @endif

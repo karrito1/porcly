@@ -23,12 +23,6 @@
         .main-chart-container {
             min-height: 350px;
         }
-        .bg-brand-50 { background-color: rgba(244, 176, 138, 0.1); }
-        .bg-brand-500 { background-color: #f4b08a; }
-        .hover\:bg-brand-650:hover { background-color: #e39a72; }
-        .text-brand-500 { color: #f4b08a; }
-        .border-brand-200 { border-color: rgba(244, 176, 138, 0.4); }
-        .focus\:ring-brand-500:focus { --tw-ring-color: #f4b08a; }
     </style>
     @endpush
 
@@ -67,7 +61,7 @@
                         </div>
                         <div class="flex items-baseline gap-2">
                             <span class="text-3xl font-bold text-gray-900 tracking-tight">{{ $totalCerdas }}</span>
-                            <span class="text-xs font-semibold text-gray-550">cerdas registradas</span>
+                            <span class="text-xs font-semibold text-gray-500">cerdas registradas</span>
                         </div>
                     </div>
                     <div class="sparkline-container mt-4">
@@ -88,7 +82,7 @@
                         </div>
                         <div class="flex items-baseline gap-2">
                             <span class="text-3xl font-bold text-gray-900 tracking-tight">{{ $cerdasGestantes }}</span>
-                            <span class="text-xs font-semibold text-gray-550">activas en gestación</span>
+                            <span class="text-xs font-semibold text-gray-500">activas en gestación</span>
                         </div>
                     </div>
                     <div class="sparkline-container mt-4">
@@ -109,7 +103,7 @@
                         </div>
                         <div class="flex items-baseline gap-2">
                             <span class="text-3xl font-bold text-gray-900 tracking-tight">{{ $partosEsteMes }}</span>
-                            <span class="text-xs font-semibold text-gray-550">partos este mes</span>
+                            <span class="text-xs font-semibold text-gray-500">partos este mes</span>
                         </div>
                     </div>
                     <div class="sparkline-container mt-4">
@@ -130,7 +124,7 @@
                         </div>
                         <div class="flex items-baseline gap-2">
                             <span class="text-3xl font-bold text-gray-900 tracking-tight">{{ $tasaSupervivencia }}%</span>
-                            <span class="text-xs font-semibold text-gray-555">promedio anual</span>
+                            <span class="text-xs font-semibold text-gray-500">promedio anual</span>
                         </div>
                     </div>
                     <div class="sparkline-container mt-4">
@@ -162,7 +156,7 @@
                             @else
                                 <ul class="space-y-3">
                                     @foreach($alertasPartos as $alerta)
-                                        <li class="bg-white p-3 rounded-lg border border-emerald-100 shadow-xs flex justify-between items-center">
+                                        <li class="bg-white p-3 rounded-lg border border-emerald-100 shadow-sm flex justify-between items-center">
                                             <div>
                                                 <div class="text-xs font-bold text-gray-800">Sow {{ $alerta->cerda->codigo }} ({{ $alerta->cerda->nombre ?? 'Sin nombre' }})</div>
                                                 <div class="text-[11px] text-gray-500">Estimado: {{ $alerta->fecha_parto_estimada->format('d/m/Y') }}</div>
@@ -192,7 +186,7 @@
                     </div>
 
                     <!-- Retornos a Celo Próximos -->
-                    <div class="bg-amber-55/40 border border-amber-100 rounded-xl p-5 flex flex-col justify-between" style="background-color: rgba(245, 158, 11, 0.05);">
+                    <div class="bg-amber-50/40 border border-amber-100 rounded-xl p-5 flex flex-col justify-between" style="background-color: rgba(245, 158, 11, 0.05);">
                         <div>
                             <h4 class="text-sm font-bold text-amber-900 flex items-center justify-between mb-3">
                                 <span>Estimación de Celos (3 días)</span>
@@ -203,7 +197,7 @@
                             @else
                                 <ul class="space-y-3">
                                     @foreach($alertasCelos as $alerta)
-                                        <li class="bg-white p-3 rounded-lg border border-amber-100 shadow-xs flex justify-between items-center">
+                                        <li class="bg-white p-3 rounded-lg border border-amber-100 shadow-sm flex justify-between items-center">
                                             <div>
                                                 <div class="text-xs font-bold text-gray-800">Sow {{ $alerta->cerda->codigo }} ({{ $alerta->cerda->nombre ?? 'Sin nombre' }})</div>
                                                 <div class="text-[11px] text-gray-500">Estimado: {{ $alerta->fecha_proximo_celo->format('d/m/Y') }}</div>
@@ -244,7 +238,7 @@
                             @else
                                 <ul class="space-y-3">
                                     @foreach($alertasVacunas as $alerta)
-                                        <li class="bg-white p-3 rounded-lg border border-blue-100 shadow-xs flex justify-between items-center">
+                                        <li class="bg-white p-3 rounded-lg border border-blue-100 shadow-sm flex justify-between items-center">
                                             <div>
                                                 <div class="text-xs font-bold text-gray-800">Sow {{ $alerta->cerda->codigo }}</div>
                                                 <div class="text-[11px] text-gray-500 font-semibold">{{ $alerta->vacuna }}</div>
@@ -364,11 +358,11 @@
                                     <td class="py-4 px-6 text-sm text-gray-600">
                                         {{ $actividad['detalle'] }}
                                     </td>
-                                    <td class="py-4 px-6 text-sm text-gray-550">
+                                    <td class="py-4 px-6 text-sm text-gray-500">
                                         {{ $actividad['fecha']->format('d/m/Y') }}
                                     </td>
                                     <td class="py-4 px-6 text-right">
-                                        <a href="{{ route('cerdas.show', $actividad['cerda']->id) }}" class="inline-flex items-center px-3 py-1 bg-gray-50 hover:bg-gray-100 text-[11px] font-semibold text-gray-750 border border-gray-200 rounded-lg shadow-2xs transition-colors" title="Ver ficha">
+                                        <a href="{{ route('cerdas.show', $actividad['cerda']->id) }}" class="inline-flex items-center px-3 py-1 bg-gray-50 hover:bg-gray-100 text-[11px] font-semibold text-gray-700 border border-gray-200 rounded-lg shadow-sm transition-colors" title="Ver ficha">
                                             Ver Ficha
                                         </a>
                                     </td>

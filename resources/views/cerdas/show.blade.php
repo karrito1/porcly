@@ -153,14 +153,14 @@
                                                         <form action="{{ route('inseminaciones.confirm', $inseminacion->id) }}" method="POST" class="inline">
                                                             @csrf
                                                             <input type="hidden" name="exitosa" value="1">
-                                                            <button type="submit" class="text-[10px] bg-emerald-100 hover:bg-emerald-250 text-emerald-800 font-bold px-1.5 py-0.5 rounded transition-colors border border-emerald-200">
+                                                            <button type="submit" class="text-[10px] bg-emerald-100 hover:bg-emerald-200 text-emerald-800 font-bold px-1.5 py-0.5 rounded transition-colors border border-emerald-200">
                                                                 Preñada
                                                             </button>
                                                         </form>
                                                         <form action="{{ route('inseminaciones.confirm', $inseminacion->id) }}" method="POST" class="inline">
                                                             @csrf
                                                             <input type="hidden" name="exitosa" value="0">
-                                                            <button type="submit" class="text-[10px] bg-rose-100 hover:bg-rose-250 text-rose-800 font-bold px-1.5 py-0.5 rounded transition-colors border border-rose-200">
+                                                            <button type="submit" class="text-[10px] bg-rose-100 hover:bg-rose-200 text-rose-800 font-bold px-1.5 py-0.5 rounded transition-colors border border-rose-200">
                                                                 Vacía
                                                             </button>
                                                         </form>
@@ -168,11 +168,11 @@
                                                 </div>
                                             @endif
                                         </td>
-                                        <td class="py-3.5 px-4 text-xs text-gray-550">{{ $inseminacion->notas ?? 'Sin notas' }}</td>
+                                        <td class="py-3.5 px-4 text-xs text-gray-500">{{ $inseminacion->notas ?? 'Sin notas' }}</td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6" class="py-6 text-center text-xs text-gray-550">No hay inseminaciones registradas para esta cerda.</td>
+                                        <td colspan="6" class="py-6 text-center text-xs text-gray-500">No hay inseminaciones registradas para esta cerda.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -228,11 +228,11 @@
                                                 @endif
                                             @endif
                                         </td>
-                                        <td class="py-3.5 px-4 text-xs text-gray-550">{{ $parto->observaciones ?? 'Sin observaciones' }}</td>
+                                        <td class="py-3.5 px-4 text-xs text-gray-500">{{ $parto->observaciones ?? 'Sin observaciones' }}</td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7" class="py-6 text-center text-xs text-gray-550">No hay partos registrados para esta cerda.</td>
+                                        <td colspan="7" class="py-6 text-center text-xs text-gray-500">No hay partos registrados para esta cerda.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -276,7 +276,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="4" class="py-4 text-center text-xs text-gray-550">No hay vacunas aplicadas.</td>
+                                            <td colspan="4" class="py-4 text-center text-xs text-gray-500">No hay vacunas aplicadas.</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -302,7 +302,7 @@
                                         <tr>
                                             <td class="py-3 px-4">{{ $tratamiento->fecha->format('d/m/Y') }}</td>
                                             <td class="py-3 px-4 font-semibold text-rose-700">{{ $tratamiento->diagnostico }}</td>
-                                            <td class="py-3 px-4 text-xs text-gray-650">{{ $tratamiento->tratamiento }}</td>
+                                            <td class="py-3 px-4 text-xs text-gray-600">{{ $tratamiento->tratamiento }}</td>
                                             <td class="py-3 px-4">
                                                 {{ $tratamiento->medicamento }}
                                                 @if($tratamiento->dosis)
@@ -312,7 +312,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="4" class="py-4 text-center text-xs text-gray-550">No hay tratamientos médicos registrados.</td>
+                                            <td colspan="4" class="py-4 text-center text-xs text-gray-500">No hay tratamientos médicos registrados.</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -341,11 +341,11 @@
                                         <td class="py-3 px-4">{{ $alimento->fecha->format('d/m/Y') }}</td>
                                         <td class="py-3 px-4 font-semibold">{{ $alimento->tipo_alimento }}</td>
                                         <td class="py-3 px-4 font-bold text-gray-900">{{ number_format($alimento->cantidad_kg, 2) }} kg</td>
-                                        <td class="py-3 px-4 text-xs text-gray-550">{{ $alimento->notas ?? 'Sin notas' }}</td>
+                                        <td class="py-3 px-4 text-xs text-gray-500">{{ $alimento->notas ?? 'Sin notas' }}</td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4" class="py-6 text-center text-xs text-gray-550">No hay registros de alimentación recientes.</td>
+                                        <td colspan="4" class="py-6 text-center text-xs text-gray-500">No hay registros de alimentación recientes.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -365,12 +365,12 @@
                         <input type="hidden" name="cerda_id" value="{{ $cerda->id }}">
                         
                         <div>
-                            <label class="block text-xs font-bold text-gray-650 uppercase mb-2">Fecha</label>
+                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Fecha</label>
                             <input type="date" name="fecha" value="{{ date('Y-m-d') }}" class="w-full text-sm rounded-lg border-gray-200 focus:border-brand-500 focus:ring-brand-200" required>
                         </div>
                         
                         <div>
-                            <label class="block text-xs font-bold text-gray-650 uppercase mb-2">Tipo de Alimento</label>
+                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Tipo de Alimento</label>
                             <select name="tipo_alimento" class="w-full text-sm rounded-lg border-gray-200 focus:border-brand-500" required>
                                 <option value="Mantenimiento">Mantenimiento</option>
                                 <option value="Gestación">Gestación</option>
@@ -380,12 +380,12 @@
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-gray-650 uppercase mb-2">Cantidad (kg)</label>
+                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Cantidad (kg)</label>
                             <input type="number" step="0.01" name="cantidad_kg" placeholder="Ej. 2.50" class="w-full text-sm rounded-lg border-gray-200" required>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-gray-650 uppercase mb-2">Notas</label>
+                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Notas</label>
                             <textarea name="notas" rows="2" class="w-full text-xs rounded-lg border-gray-200" placeholder="Opcional..."></textarea>
                         </div>
 
@@ -403,28 +403,28 @@
                         <input type="hidden" name="cerda_id" value="{{ $cerda->id }}">
                         
                         <div>
-                            <label class="block text-xs font-bold text-gray-650 uppercase mb-2">Fecha</label>
+                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Fecha</label>
                             <input type="date" name="fecha" value="{{ date('Y-m-d') }}" class="w-full text-sm rounded-lg border-gray-200" required>
                         </div>
                         
                         <div>
-                            <label class="block text-xs font-bold text-gray-650 uppercase mb-2">Vacuna / Biológeno</label>
+                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Vacuna / Biológeno</label>
                             <input type="text" name="vacuna" placeholder="Ej. NeoColipor, Parvovirus..." class="w-full text-sm rounded-lg border-gray-200" required>
                         </div>
 
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-bold text-gray-650 uppercase mb-2">Dosis (ml)</label>
+                                <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Dosis (ml)</label>
                                 <input type="text" name="dosis" placeholder="2 ml" class="w-full text-sm rounded-lg border-gray-200">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-gray-650 uppercase mb-2">Veterinario</label>
+                                <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Veterinario</label>
                                 <input type="text" name="veterinario" placeholder="Dr. Mendoza" class="w-full text-sm rounded-lg border-gray-200">
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-gray-650 uppercase mb-2">Próxima Dosis (Alerta)</label>
+                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Próxima Dosis (Alerta)</label>
                             <input type="date" name="proxima_dosis" class="w-full text-sm rounded-lg border-gray-200">
                         </div>
 
@@ -442,27 +442,27 @@
                         <input type="hidden" name="cerda_id" value="{{ $cerda->id }}">
                         
                         <div>
-                            <label class="block text-xs font-bold text-gray-650 uppercase mb-2">Fecha</label>
+                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Fecha</label>
                             <input type="date" name="fecha" value="{{ date('Y-m-d') }}" class="w-full text-sm rounded-lg border-gray-200" required>
                         </div>
                         
                         <div>
-                            <label class="block text-xs font-bold text-gray-650 uppercase mb-2">Diagnóstico / Síntoma</label>
+                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Diagnóstico / Síntoma</label>
                             <input type="text" name="diagnostico" placeholder="Ej. Cojera, Fiebre, Mastitis..." class="w-full text-sm rounded-lg border-gray-200" required>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-gray-650 uppercase mb-2">Tratamiento Realizado</label>
+                            <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Tratamiento Realizado</label>
                             <input type="text" name="tratamiento" placeholder="Ej. Terapia analgésica, limpieza..." class="w-full text-sm rounded-lg border-gray-200" required>
                         </div>
 
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-xs font-bold text-gray-650 uppercase mb-2">Medicamento</label>
+                                <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Medicamento</label>
                                 <input type="text" name="medicamento" placeholder="Ej. Flunixin" class="w-full text-sm rounded-lg border-gray-200">
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-gray-650 uppercase mb-2">Duración (Días)</label>
+                                <label class="block text-xs font-bold text-gray-600 uppercase mb-2">Duración (Días)</label>
                                 <input type="number" name="duracion_dias" placeholder="3" class="w-full text-sm rounded-lg border-gray-200">
                             </div>
                         </div>
@@ -504,27 +504,27 @@
 
                                 <div>
                                     <label class="block text-xs font-bold text-gray-700 uppercase mb-2">Fecha del Destete</label>
-                                    <input type="date" name="fecha_destete" value="{{ date('Y-m-d') }}" class="w-full text-sm rounded-lg border-gray-250 focus:border-brand-500" required>
+                                    <input type="date" name="fecha_destete" value="{{ date('Y-m-d') }}" class="w-full text-sm rounded-lg border-gray-300 focus:border-brand-500" required>
                                 </div>
 
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
                                         <label class="block text-xs font-bold text-gray-700 uppercase mb-2">Lechones Destetados</label>
-                                        <input type="number" name="lechones_destetados" id="destete-max-lechones" min="0" class="w-full text-sm rounded-lg border-gray-250 focus:border-brand-500" required>
+                                        <input type="number" name="lechones_destetados" id="destete-max-lechones" min="0" class="w-full text-sm rounded-lg border-gray-300 focus:border-brand-500" required>
                                     </div>
                                     <div>
                                         <label class="block text-xs font-bold text-gray-700 uppercase mb-2">Peso Promedio (kg)</label>
-                                        <input type="number" step="0.01" name="peso_promedio" placeholder="Ej. 6.5" class="w-full text-sm rounded-lg border-gray-250 focus:border-brand-500">
+                                        <input type="number" step="0.01" name="peso_promedio" placeholder="Ej. 6.5" class="w-full text-sm rounded-lg border-gray-300 focus:border-brand-500">
                                     </div>
                                 </div>
 
                                 <div>
                                     <label class="block text-xs font-bold text-gray-700 uppercase mb-2">Notas</label>
-                                    <textarea name="notes" rows="2" placeholder="Opcional..." class="w-full text-xs rounded-lg border-gray-250 focus:border-brand-500"></textarea>
+                                    <textarea name="notes" rows="2" placeholder="Opcional..." class="w-full text-xs rounded-lg border-gray-300 focus:border-brand-500"></textarea>
                                 </div>
 
                                 <div class="mt-6 flex justify-end gap-3 pt-4 border-t border-gray-100">
-                                    <button type="button" onclick="closeDesteteModal()" class="px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 text-xs font-bold border border-gray-250 rounded-lg shadow-sm">
+                                    <button type="button" onclick="closeDesteteModal()" class="px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 text-xs font-bold border border-gray-300 rounded-lg shadow-sm">
                                         Cancelar
                                     </button>
                                     <button type="submit" class="px-4 py-2 text-white text-xs font-bold rounded-lg shadow-sm" style="background-color: #f4b08a; hover:background-color: #e39a72;">
