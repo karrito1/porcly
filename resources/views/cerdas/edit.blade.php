@@ -27,7 +27,7 @@
                         <!-- Código -->
                         <div>
                             <label for="codigo" class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Código de la Cerda <span class="text-rose-500">*</span></label>
-                            <input type="text" name="codigo" id="codigo" value="{{ old('codigo', $cerda->codigo) }}" class="w-full text-sm rounded-lg border-gray-250 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50 @error('codigo') border-rose-300 focus:border-rose-500 focus:ring-rose-200 @enderror" required>
+                            <input type="text" name="codigo" id="codigo" value="{{ old('codigo', $cerda->codigo) }}" class="w-full text-sm rounded-lg border-gray-300 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50 @error('codigo') border-rose-300 focus:border-rose-500 focus:ring-rose-200 @enderror" required>
                             @error('codigo')
                                 <p class="text-rose-600 text-xs mt-1.5 font-medium">{{ $message }}</p>
                             @enderror
@@ -36,7 +36,7 @@
                         <!-- Nombre -->
                         <div>
                             <label for="nombre" class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Nombre / Apodo</label>
-                            <input type="text" name="nombre" id="nombre" value="{{ old('nombre', $cerda->nombre) }}" class="w-full text-sm rounded-lg border-gray-250 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50 @error('nombre') border-rose-300 focus:border-rose-500 focus:ring-rose-200 @enderror">
+                            <input type="text" name="nombre" id="nombre" value="{{ old('nombre', $cerda->nombre) }}" class="w-full text-sm rounded-lg border-gray-300 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50 @error('nombre') border-rose-300 focus:border-rose-500 focus:ring-rose-200 @enderror">
                             @error('nombre')
                                 <p class="text-rose-600 text-xs mt-1.5 font-medium">{{ $message }}</p>
                             @enderror
@@ -45,7 +45,7 @@
                         <!-- Raza -->
                         <div>
                             <label for="raza" class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Raza</label>
-                            <input type="text" name="raza" id="raza" value="{{ old('raza', $cerda->raza) }}" class="w-full text-sm rounded-lg border-gray-250 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50 @error('raza') border-rose-300 focus:border-rose-500 focus:ring-rose-200 @enderror">
+                            <input type="text" name="raza" id="raza" value="{{ old('raza', $cerda->raza) }}" class="w-full text-sm rounded-lg border-gray-300 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50 @error('raza') border-rose-300 focus:border-rose-500 focus:ring-rose-200 @enderror">
                             @error('raza')
                                 <p class="text-rose-600 text-xs mt-1.5 font-medium">{{ $message }}</p>
                             @enderror
@@ -54,7 +54,7 @@
                         <!-- Estado -->
                         <div>
                             <label for="estado" class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Estado Productivo <span class="text-rose-500">*</span></label>
-                            <select name="estado" id="estado" class="w-full text-sm rounded-lg border-gray-250 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50 @error('estado') border-rose-300 focus:border-rose-500 focus:ring-rose-200 @enderror" required>
+                            <select name="estado" id="estado" class="w-full text-sm rounded-lg border-gray-300 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50 @error('estado') border-rose-300 focus:border-rose-500 focus:ring-rose-200 @enderror" required>
                                 <option value="activa" {{ old('estado', $cerda->estado) === 'activa' ? 'selected' : '' }}>Activa (Ciclando / Destetada)</option>
                                 <option value="gestante" {{ old('estado', $cerda->estado) === 'gestante' ? 'selected' : '' }}>Gestante (Preñada)</option>
                                 <option value="lactante" {{ old('estado', $cerda->estado) === 'lactante' ? 'selected' : '' }}>Lactante (Con lechones)</option>
@@ -69,7 +69,7 @@
                         <!-- Fecha de Nacimiento -->
                         <div>
                             <label for="fecha_nacimiento" class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Fecha de Nacimiento</label>
-                            <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" value="{{ old('fecha_nacimiento', $cerda->fecha_nacimiento ? $cerda->fecha_nacimiento->format('Y-m-d') : '') }}" class="w-full text-sm rounded-lg border-gray-250 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50 @error('fecha_nacimiento') border-rose-300 focus:border-rose-500 focus:ring-rose-200 @enderror">
+                            <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" value="{{ old('fecha_nacimiento', $cerda->fecha_nacimiento ? $cerda->fecha_nacimiento->format('Y-m-d') : '') }}" class="w-full text-sm rounded-lg border-gray-300 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50 @error('fecha_nacimiento') border-rose-300 focus:border-rose-500 focus:ring-rose-200 @enderror">
                             @error('fecha_nacimiento')
                                 <p class="text-rose-600 text-xs mt-1.5 font-medium">{{ $message }}</p>
                             @enderror
@@ -78,7 +78,7 @@
                         <!-- Peso Actual -->
                         <div>
                             <label for="peso_actual" class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Peso Actual (kg)</label>
-                            <input type="number" step="0.01" name="peso_actual" id="peso_actual" value="{{ old('peso_actual', $cerda->peso_actual) }}" class="w-full text-sm rounded-lg border-gray-250 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50 @error('peso_actual') border-rose-300 focus:border-rose-500 focus:ring-rose-200 @enderror">
+                            <input type="number" step="0.01" name="peso_actual" id="peso_actual" value="{{ old('peso_actual', $cerda->peso_actual) }}" class="w-full text-sm rounded-lg border-gray-300 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50 @error('peso_actual') border-rose-300 focus:border-rose-500 focus:ring-rose-200 @enderror">
                             @error('peso_actual')
                                 <p class="text-rose-600 text-xs mt-1.5 font-medium">{{ $message }}</p>
                             @enderror
@@ -88,7 +88,7 @@
                     <!-- Notas -->
                     <div>
                         <label for="notas" class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Notas / Observaciones</label>
-                        <textarea name="notas" id="notas" rows="4" class="w-full text-sm rounded-lg border-gray-250 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50 @error('notas') border-rose-300 focus:border-rose-500 focus:ring-rose-200 @enderror">{{ old('notas', $cerda->notas) }}</textarea>
+                        <textarea name="notas" id="notas" rows="4" class="w-full text-sm rounded-lg border-gray-300 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50 @error('notas') border-rose-300 focus:border-rose-500 focus:ring-rose-200 @enderror">{{ old('notas', $cerda->notas) }}</textarea>
                         @error('notas')
                             <p class="text-rose-600 text-xs mt-1.5 font-medium">{{ $message }}</p>
                         @enderror
@@ -96,7 +96,7 @@
 
                     <!-- Botones -->
                     <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
-                        <a href="{{ route('cerdas.show', $cerda->id) }}" class="inline-flex items-center px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 text-xs font-bold border border-gray-250 rounded-lg shadow-sm transition-colors duration-150">
+                        <a href="{{ route('cerdas.show', $cerda->id) }}" class="inline-flex items-center px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 text-xs font-bold border border-gray-300 rounded-lg shadow-sm transition-colors duration-150">
                             Cancelar
                         </a>
                         <button type="submit" class="inline-flex items-center px-4 py-2 text-white text-xs font-bold rounded-lg shadow-sm transition-colors duration-150" style="background-color: #f4b08a; hover:background-color: #e39a72;">

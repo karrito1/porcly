@@ -4,7 +4,7 @@
             <h2 class="font-bold text-xl text-gray-800 leading-tight">
                 {{ __('Control de Partos') }}
             </h2>
-            <a href="{{ route('partos.create') }}" class="inline-flex items-center px-4 py-2 bg-brand-500 hover:bg-brand-650 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors duration-200" style="background-color: #f4b08a;">
+            <a href="{{ route('partos.create') }}" class="inline-flex items-center px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors duration-200">
                 Registrar Parto
             </a>
         </div>
@@ -19,7 +19,7 @@
                     <!-- Búsqueda -->
                     <div class="md:col-span-3">
                         <label for="buscar" class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Buscar por código de cerda</label>
-                        <input type="text" name="buscar" id="buscar" value="{{ request('buscar') }}" placeholder="Código de la cerda madre (ej. C-001)..." class="w-full text-sm rounded-lg border-gray-250 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50">
+                        <input type="text" name="buscar" id="buscar" value="{{ request('buscar') }}" placeholder="Código de la cerda madre (ej. C-001)..." class="w-full text-sm rounded-lg border-gray-300 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50">
                     </div>
 
                     <!-- Botón de Acción -->
@@ -57,7 +57,7 @@
                                             <span class="text-xs text-gray-400">{{ $parto->cerda->nombre ?? 'Sin nombre' }}</span>
                                         </div>
                                     </td>
-                                    <td class="py-4 px-6 text-sm text-gray-750 font-medium">
+                                    <td class="py-4 px-6 text-sm text-gray-700 font-medium">
                                         {{ $parto->fecha_parto->format('d/m/Y') }}
                                     </td>
                                     <td class="py-4 px-6 text-sm text-center font-bold text-emerald-600 bg-emerald-50/20">
@@ -72,10 +72,10 @@
                                     <td class="py-4 px-6 text-sm text-center font-bold text-gray-800">
                                         {{ $parto->totalLechones() }}
                                     </td>
-                                    <td class="py-4 px-6 text-sm text-center font-semibold text-gray-750">
+                                    <td class="py-4 px-6 text-sm text-center font-semibold text-gray-700">
                                         @if($parto->peso_camada)
                                             {{ number_format($parto->peso_camada, 1) }} kg
-                                            <div class="text-3xs text-gray-450 font-normal">
+                                            <div class="text-[10px] text-gray-400 font-normal">
                                                 Prom: {{ number_format($parto->peso_camada / max($parto->lechones_vivos, 1), 2) }} kg
                                             </div>
                                         @else
@@ -86,7 +86,7 @@
                                         {{ $parto->observaciones ?? 'N/A' }}
                                     </td>
                                     <td class="py-4 px-6 text-right text-sm">
-                                        <a href="{{ route('cerdas.show', $parto->cerda_id) }}" class="inline-flex items-center px-3 py-1 bg-white hover:bg-gray-50 text-gray-750 text-xs font-semibold border border-gray-200 rounded-lg transition-colors shadow-2xs">
+                                        <a href="{{ route('cerdas.show', $parto->cerda_id) }}" class="inline-flex items-center px-3 py-1 bg-white hover:bg-gray-50 text-gray-700 text-xs font-semibold border border-gray-200 rounded-lg transition-colors shadow-sm">
                                             Ver Ficha Cerda
                                         </a>
                                     </td>
@@ -103,7 +103,7 @@
                 </div>
 
                 @if($partos->hasPages())
-                    <div class="px-6 py-4 border-t border-gray-150">
+                    <div class="px-6 py-4 border-t border-gray-200">
                         {{ $partos->links() }}
                     </div>
                 @endif

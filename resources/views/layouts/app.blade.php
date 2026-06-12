@@ -31,23 +31,61 @@
 
             <!-- Page Content -->
             <main>
-                @if (session('success'))
-                    <div class="max-w-7xl mx-auto mt-4 px-4 sm:px-6 lg:px-8">
-                        <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 rounded-lg relative" role="alert">
-                            <span class="block sm:inline text-sm font-medium">{{ session('success') }}</span>
-                        </div>
-                    </div>
-                @endif
-                @if (session('error'))
-                    <div class="max-w-7xl mx-auto mt-4 px-4 sm:px-6 lg:px-8">
-                        <div class="bg-rose-50 border border-rose-200 text-rose-800 px-4 py-3 rounded-lg relative" role="alert">
-                            <span class="block sm:inline text-sm font-medium">{{ session('error') }}</span>
-                        </div>
-                    </div>
-                @endif
                 {{ $slot }}
             </main>
         </div>
+
+        @php
+            $toastType = session('success') ? 'success' : (session('error') ? 'error' : null);
+            $toastMessage = session('success') ?? session('error') ?? null;
+        @endphp
+
+        @if ($toastType && $toastMessage)
+            <div id="toast" data-type="{{ $toastType }}" data-message="{{ $toastMessage }}"
+                class="fixed top-4 right-4 z-50 max-w-sm w-full translate-x-full opacity-0 transition-all duration-500 ease-out"
+                role="alert"
+            >
+                <div class="border px-5 py-4 rounded-xl shadow-lg flex items-center gap-3
+                    @if($toastType === 'success') bg-emerald-50 border-emerald-200 text-emerald-800
+                    @else bg-rose-50 border-rose-200 text-rose-800 @endif
+                ">
+                    @if($toastType === 'success')
+                        <svg class="w-5 h-5 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    @else
+                        <svg class="w-5 h-5 text-rose-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    @endif
+                    <span class="text-sm font-medium" id="toast-message">{{ $toastMessage }}</span>
+                    <button onclick="dismissToast()" class="ml-auto shrink-0 opacity-60 hover:opacity-100 transition-opacity">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <script>
+                (function() {
+                    var toast = document.getElementById('toast');
+                    if (!toast) return;
+                    requestAnimationFrame(function() {
+                        toast.classList.remove('translate-x-full', 'opacity-0');
+                        toast.classList.add('translate-x-0', 'opacity-100');
+                    });
+                    setTimeout(dismissToast, 5000);
+                })();
+                function dismissToast() {
+                    var toast = document.getElementById('toast');
+                    if (!toast) return;
+                    toast.classList.remove('translate-x-0', 'opacity-100');
+                    toast.classList.add('translate-x-full', 'opacity-0');
+                    setTimeout(function() { toast.remove(); }, 500);
+                }
+            </script>
+        @endif
+
         @stack('scripts')
     </body>
 </html>

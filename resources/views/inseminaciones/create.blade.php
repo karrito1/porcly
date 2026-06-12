@@ -4,7 +4,7 @@
             <h2 class="font-bold text-xl text-gray-800 leading-tight">
                 {{ __('Registrar Inseminación') }}
             </h2>
-            <a href="{{ route('inseminaciones.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-750 text-xs font-bold rounded-lg border border-gray-200 shadow-sm transition-colors duration-150">
+            <a href="{{ route('inseminaciones.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-lg border border-gray-200 shadow-sm transition-colors duration-150">
                 Volver a la Lista
             </a>
         </div>
@@ -29,7 +29,7 @@
                     <!-- Cerda -->
                     <div>
                         <label for="cerda_id" class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Seleccionar Cerda</label>
-                        <select name="cerda_id" id="cerda_id" required class="w-full text-sm rounded-lg border-gray-250 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50">
+                        <select name="cerda_id" id="cerda_id" required class="w-full text-sm rounded-lg border-gray-300 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50">
                             <option value="">-- Seleccionar Cerda por Código --</option>
                             @foreach($cerdas as $cerda)
                                 <option value="{{ $cerda->id }}" {{ (old('cerda_id') == $cerda->id || $selected_cerda_id == $cerda->id) ? 'selected' : '' }}>
@@ -52,7 +52,7 @@
                         <!-- Fecha Inseminación -->
                         <div>
                             <label for="fecha_inseminacion" class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Fecha de Inseminación</label>
-                            <input type="date" name="fecha_inseminacion" id="fecha_inseminacion" value="{{ old('fecha_inseminacion', date('Y-m-d')) }}" required class="w-full text-sm rounded-lg border-gray-250 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50">
+                            <input type="date" name="fecha_inseminacion" id="fecha_inseminacion" value="{{ old('fecha_inseminacion', date('Y-m-d')) }}" required class="w-full text-sm rounded-lg border-gray-300 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50">
                             @error('fecha_inseminacion')
                                 <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
                             @enderror
@@ -61,7 +61,7 @@
                         <!-- Tipo -->
                         <div>
                             <label for="tipo" class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Método / Tipo</label>
-                            <select name="tipo" id="tipo" required class="w-full text-sm rounded-lg border-gray-250 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50">
+                            <select name="tipo" id="tipo" required class="w-full text-sm rounded-lg border-gray-300 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50">
                                 <option value="artificial" {{ old('tipo') === 'artificial' ? 'selected' : '' }}>Inseminación Artificial (Recomendado)</option>
                                 <option value="natural" {{ old('tipo') === 'natural' ? 'selected' : '' }}>Monta Natural</option>
                             </select>
@@ -74,7 +74,7 @@
                     <!-- Verraco -->
                     <div>
                         <label for="verraco" class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Verraco (Padre / Registro de Semen)</label>
-                        <input type="text" name="verraco" id="verraco" value="{{ old('verraco') }}" placeholder="Código o nombre del macho progenitor (ej. V-102)" class="w-full text-sm rounded-lg border-gray-250 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50">
+                        <input type="text" name="verraco" id="verraco" value="{{ old('verraco') }}" placeholder="Código o nombre del macho progenitor (ej. V-102)" class="w-full text-sm rounded-lg border-gray-300 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50">
                         @error('verraco')
                             <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
                         @enderror
@@ -83,7 +83,7 @@
                     <!-- Notas -->
                     <div>
                         <label for="notas" class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Notas / Observaciones</label>
-                        <textarea name="notas" id="notas" rows="4" placeholder="Registrar detalles adicionales (casa genética del semen, condiciones del celo, etc.)..." class="w-full text-sm rounded-lg border-gray-250 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50">{{ old('notas') }}</textarea>
+                        <textarea name="notas" id="notas" rows="4" placeholder="Registrar detalles adicionales (casa genética del semen, condiciones del celo, etc.)..." class="w-full text-sm rounded-lg border-gray-300 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50">{{ old('notas') }}</textarea>
                         @error('notas')
                             <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
                         @enderror
@@ -94,7 +94,7 @@
                         <a href="{{ route('inseminaciones.index') }}" class="px-4 py-2 text-sm font-semibold text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
                             Cancelar
                         </a>
-                        <button type="submit" class="px-5 py-2 text-sm font-bold text-white rounded-lg hover:bg-brand-650 shadow-sm transition-colors" style="background-color: #f4b08a;">
+                        <button type="submit" class="px-5 py-2 text-sm font-bold text-white rounded-lg hover:bg-brand-600 shadow-sm transition-colors" style="background-color: #f4b08a;">
                             Registrar Inseminación
                         </button>
                     </div>
