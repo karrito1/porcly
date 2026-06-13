@@ -6,11 +6,12 @@ use App\Http\Controllers\CerdaController;
 use App\Http\Controllers\InseminacionController;
 use App\Http\Controllers\PartoController;
 use App\Http\Controllers\QuickRecordController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->route('dashboard');
-});
+    return view('welcome');
+})->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard
@@ -40,6 +41,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Gestión de usuarios
+    Route::get('/usuarios', [UserController::class, 'index'])->name('users.index');
+    Route::get('/usuarios/crear', [UserController::class, 'create'])->name('users.create');
+    Route::post('/usuarios', [UserController::class, 'store'])->name('users.store');
 });
 
 require __DIR__.'/auth.php';
