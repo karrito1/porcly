@@ -14,6 +14,9 @@ use App\Models\Destete;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,6 +25,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
+
+        $createUsersPermission = Permission::firstOrCreate([
+            'name' => 'users.create',
+            'guard_name' => 'web',
+        ]);
+
+        $adminRole = Role::firstOrCreate([
+            'name' => 'admin',
+            'guard_name' => 'web',
+        ]);
+
+        $adminRole->givePermissionTo($createUsersPermission);
+
         // Crear usuario por defecto
         $user = User::updateOrCreate(
             ['email' => 'test@example.com'],
@@ -30,6 +47,8 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('password'),
             ]
         );
+
+        $user->assignRole($adminRole);
 
         // Crear cerdas
         $cerdasData = [

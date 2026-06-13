@@ -36,21 +36,32 @@
         </div>
 
         @php
+            $statusMessages = [
+                'profile-updated' => 'Perfil actualizado correctamente.',
+                'password-updated' => 'Contraseña actualizada correctamente.',
+                'verification-link-sent' => 'Se ha enviado un nuevo enlace de verificación a tu correo.',
+            ];
+
             $toastType = session('success') ? 'success' : (session('error') ? 'error' : null);
             $toastMessage = session('success') ?? session('error') ?? null;
+
+            if (! $toastMessage && session('status') && array_key_exists(session('status'), $statusMessages)) {
+                $toastType = 'success';
+                $toastMessage = $statusMessages[session('status')];
+            }
         @endphp
 
         @if ($toastType && $toastMessage)
             <div id="toast" data-type="{{ $toastType }}" data-message="{{ $toastMessage }}"
-                class="fixed top-4 right-4 z-50 max-w-sm w-full translate-x-full opacity-0 transition-all duration-500 ease-out"
+                class="fixed right-4 z-50 max-w-sm translate-x-full opacity-0 transition-all duration-500 ease-out @if($toastType === 'success') bottom-4 w-[calc(100%-2rem)] sm:w-full @else top-4 w-full @endif"
                 role="alert"
             >
                 <div class="border px-5 py-4 rounded-xl shadow-lg flex items-center gap-3
-                    @if($toastType === 'success') bg-emerald-50 border-emerald-200 text-emerald-800
+                    @if($toastType === 'success') bg-brand-500 border-brand-600 text-white
                     @else bg-rose-50 border-rose-200 text-rose-800 @endif
                 ">
                     @if($toastType === 'success')
-                        <svg class="w-5 h-5 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 text-white/90 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     @else
@@ -59,7 +70,7 @@
                         </svg>
                     @endif
                     <span class="text-sm font-medium" id="toast-message">{{ $toastMessage }}</span>
-                    <button onclick="dismissToast()" class="ml-auto shrink-0 opacity-60 hover:opacity-100 transition-opacity">
+                    <button onclick="dismissToast()" class="ml-auto shrink-0 opacity-60 hover:opacity-100 transition-opacity" aria-label="Cerrar notificación">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>

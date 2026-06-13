@@ -24,6 +24,11 @@
                     <x-nav-link :href="route('partos.index')" :active="request()->routeIs('partos.*')">
                         {{ __('Partos') }}
                     </x-nav-link>
+                    @can('users.create')
+                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
+                            {{ __('Usuarios') }}
+                        </x-nav-link>
+                    @endcan
                 </div>
             </div>
 
@@ -106,6 +111,11 @@
             <x-responsive-nav-link :href="route('partos.index')" :active="request()->routeIs('partos.*')">
                 {{ __('Partos') }}
             </x-responsive-nav-link>
+            @can('users.create')
+                <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
+                    {{ __('Usuarios') }}
+                </x-responsive-nav-link>
+            @endcan
         </div>
 
         <!-- Responsive Settings Options -->
