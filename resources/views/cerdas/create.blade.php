@@ -74,7 +74,7 @@
                             @enderror
                         </div>
 
-                        <!-- Peso Actual -->
+                        <!-- Peso Actual del Animal -->
                         <div>
                             <label for="peso_actual" class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Peso Inicial (kg)</label>
                             <input type="number" step="0.01" name="peso_actual" id="peso_actual" value="{{ old('peso_actual') }}" placeholder="Ej. 180.5" class="w-full text-sm rounded-lg border-gray-300 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50 @error('peso_actual') border-rose-300 focus:border-rose-500 focus:ring-rose-200 @enderror">
