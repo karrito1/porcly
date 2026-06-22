@@ -6,6 +6,7 @@ use App\Models\Cerda;
 use App\Models\Inseminacion;
 use App\Models\Parto;
 use App\Models\Lechon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -30,30 +31,10 @@ class DashboardController extends Controller
             ? round(($totalLechonesVivos / $totalLechones) * 100, 1)
             : 0;
 
-        // Alertas — Partos próximos (dentro de 5 días)
-        $alertasPartos = Inseminacion::with('cerda')
-            ->where(function ($query) {
-                $query->where('exitosa', true)
-                      ->orWhereNull('exitosa');
-            })
-            ->whereBetween('fecha_parto_estimada', [now()->subDay(), now()->addDays(5)])
-            ->whereDoesntHave('parto')
-            ->orderBy('fecha_parto_estimada')
-            ->get();
-
-        // Alertas — Celos próximos (dentro de 3 días)
-        $alertasCelos = Inseminacion::with('cerda')
-            ->where('exitosa', false)
-            ->whereBetween('fecha_proximo_celo', [now()->subDay(), now()->addDays(3)])
-            ->orderBy('fecha_proximo_celo')
-            ->get();
-
-        // Alertas — Vacunaciones próximas (dentro de 7 días)
-        $alertasVacunas = \App\Models\Vacunacion::with('cerda')
-            ->whereNotNull('proxima_dosis')
-            ->whereBetween('proxima_dosis', [now(), now()->addDays(7)])
-            ->orderBy('proxima_dosis')
-            ->get();
+        // Alertas
+        $alertasPartos = self::getAlertasPartos();
+        $alertasCelos = self::getAlertasCelos();
+        $alertasVacunas = self::getAlertasVacunas();
 
         // Datos para gráfica de producción mensual (últimos 12 meses)
         $mesesProduccion = collect();
@@ -149,5 +130,72 @@ class DashboardController extends Controller
             'sparklinePartos',
             'sparklineSupervivencia',
         ));
+    }
+
+    public function alertasJson(): JsonResponse
+    {
+        $alertasPartos = self::getAlertasPartos();
+        $alertasCelos = self::getAlertasCelos();
+        $alertasVacunas = self::getAlertasVacunas();
+
+        return response()->json([
+            'partos' => $alertasPartos->map(fn ($a) => [
+                'id' => $a->id,
+                'cerda_codigo' => $a->cerda->codigo,
+                'cerda_nombre' => $a->cerda->nombre,
+                'cerda_id' => $a->cerda_id,
+                'fecha_estimada' => $a->fecha_parto_estimada->format('d/m/Y'),
+                'dias_restantes' => (int) now()->startOfDay()->diffInDays($a->fecha_parto_estimada->startOfDay(), false),
+            ]),
+            'celos' => $alertasCelos->map(fn ($a) => [
+                'id' => $a->id,
+                'cerda_codigo' => $a->cerda->codigo,
+                'cerda_nombre' => $a->cerda->nombre,
+                'cerda_id' => $a->cerda_id,
+                'fecha_estimada' => $a->fecha_proximo_celo->format('d/m/Y'),
+                'dias_restantes' => (int) now()->startOfDay()->diffInDays($a->fecha_proximo_celo->startOfDay(), false),
+            ]),
+            'vacunas' => $alertasVacunas->map(fn ($a) => [
+                'id' => $a->id,
+                'cerda_codigo' => $a->cerda->codigo,
+                'vacuna' => $a->vacuna,
+                'cerda_id' => $a->cerda_id,
+                'proxima_dosis' => $a->proxima_dosis->format('d/m/Y'),
+            ]),
+            'total_partos' => $alertasPartos->count(),
+            'total_celos' => $alertasCelos->count(),
+            'total_vacunas' => $alertasVacunas->count(),
+        ]);
+    }
+
+    private static function getAlertasPartos()
+    {
+        return Inseminacion::with('cerda')
+            ->where(function ($query) {
+                $query->where('exitosa', true)
+                      ->orWhereNull('exitosa');
+            })
+            ->whereBetween('fecha_parto_estimada', [now()->subDay(), now()->addDays(5)])
+            ->whereDoesntHave('parto')
+            ->orderBy('fecha_parto_estimada')
+            ->get();
+    }
+
+    private static function getAlertasCelos()
+    {
+        return Inseminacion::with('cerda')
+            ->where('exitosa', false)
+            ->whereBetween('fecha_proximo_celo', [now()->subDay(), now()->addDays(3)])
+            ->orderBy('fecha_proximo_celo')
+            ->get();
+    }
+
+    private static function getAlertasVacunas()
+    {
+        return \App\Models\Vacunacion::with('cerda')
+            ->whereNotNull('proxima_dosis')
+            ->whereBetween('proxima_dosis', [now(), now()->addDays(7)])
+            ->orderBy('proxima_dosis')
+            ->get();
     }
 }

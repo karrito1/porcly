@@ -134,22 +134,23 @@
             </div>
 
             <!-- Panel de Alertas Prioritarias (Gestión de alertas automáticas) -->
-            <div class="bg-white border border-gray-200/85 rounded-2xl shadow-sm p-6 mb-8">
+            <div id="alertas-panel" class="bg-white border border-gray-200/85 rounded-2xl shadow-sm p-6 mb-8">
                 <h3 class="text-lg font-bold text-gray-950 mb-4 flex items-center gap-2">
                     <svg class="w-5 h-5 text-[#f4b08a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                     </svg>
                     Alertas Críticas de Producción
+                    <span class="ml-auto text-xs text-gray-400 font-normal" id="alertas-timestamp"></span>
                 </h3>
                 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     
                     <!-- Próximos Partos -->
                     <div class="bg-emerald-50/40 border border-emerald-100 rounded-xl p-5 flex flex-col justify-between">
                         <div>
                             <h4 class="text-sm font-bold text-emerald-900 flex items-center justify-between mb-3">
                                 <span>Próximos Partos (5 días)</span>
-                                <span class="text-xs font-semibold bg-emerald-100/80 px-2 py-0.5 rounded text-emerald-800">{{ $alertasPartos->count() }}</span>
+                                <span id="alertas-partos-count" class="text-xs font-semibold bg-emerald-100/80 px-2 py-0.5 rounded text-emerald-800">{{ $alertasPartos->count() }}</span>
                             </h4>
                             @if($alertasPartos->isEmpty())
                                 <p class="text-xs text-gray-500 py-4">No hay partos estimados en los próximos días.</p>
@@ -190,7 +191,7 @@
                         <div>
                             <h4 class="text-sm font-bold text-amber-900 flex items-center justify-between mb-3">
                                 <span>Estimación de Celos (3 días)</span>
-                                <span class="text-xs font-semibold bg-amber-100/80 px-2 py-0.5 rounded text-amber-800">{{ $alertasCelos->count() }}</span>
+                                <span id="alertas-celos-count" class="text-xs font-semibold bg-amber-100/80 px-2 py-0.5 rounded text-amber-800">{{ $alertasCelos->count() }}</span>
                             </h4>
                             @if($alertasCelos->isEmpty())
                                 <p class="text-xs text-gray-500 py-4">No hay retornos a celo previstos para los siguientes días.</p>
@@ -231,7 +232,7 @@
                         <div>
                             <h4 class="text-sm font-bold text-blue-900 flex items-center justify-between mb-3">
                                 <span>Vacunas Programadas (7 días)</span>
-                                <span class="text-xs font-semibold bg-blue-100/80 px-2 py-0.5 rounded text-blue-800">{{ $alertasVacunas->count() }}</span>
+                                <span id="alertas-vacunas-count" class="text-xs font-semibold bg-blue-100/80 px-2 py-0.5 rounded text-blue-800">{{ $alertasVacunas->count() }}</span>
                             </h4>
                             @if($alertasVacunas->isEmpty())
                                 <p class="text-xs text-gray-500 py-4">No hay vacunas programadas en los próximos días.</p>
@@ -533,6 +534,81 @@
             }
         };
         new ApexCharts(document.querySelector("#herd-status-pie-chart"), herdStatusOptions).render();
+    </script>
+    @endpush
+
+    @push('scripts')
+    <script>
+        (function() {
+            function actualizarAlertas() {
+                fetch('{{ route("dashboard.alertas.json") }}')
+                    .then(function(r) { return r.json(); })
+                    .then(function(data) {
+                        var ts = document.getElementById('alertas-timestamp');
+                        if (ts) ts.textContent = new Date().toLocaleTimeString('es-CO');
+
+                        var pc = document.getElementById('alertas-partos-count');
+                        if (pc) pc.textContent = data.total_partos;
+                        var cc = document.getElementById('alertas-celos-count');
+                        if (cc) cc.textContent = data.total_celos;
+                        var vc = document.getElementById('alertas-vacunas-count');
+                        if (vc) vc.textContent = data.total_vacunas;
+
+                        function limpiarLista(id) {
+                            var el = document.getElementById(id);
+                            if (el) el.innerHTML = '';
+                            return el;
+                        }
+
+                        var pl = limpiarLista('alertas-partos-list');
+                        if (pl && data.partos.length > 0) {
+                            data.partos.forEach(function(a) {
+                                var dias = a.dias_restantes;
+                                var texto = dias === 0 ? 'Hoy' : dias === 1 ? 'Mañana' : 'En ' + dias + ' d\u00edas';
+                                pl.innerHTML += '<li class="bg-white p-3 rounded-lg border border-emerald-100 shadow-sm flex justify-between items-center">' +
+                                    '<div><div class="text-xs font-bold text-gray-800">Sow ' + a.cerda_codigo + ' (' + (a.cerda_nombre || 'Sin nombre') + ')</div>' +
+                                    '<div class="text-[11px] text-gray-500">Estimado: ' + a.fecha_estimada + '</div></div>' +
+                                    '<div class="text-right"><span class="inline-block text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md mb-1.5">' + texto + '</span>' +
+                                    '<a href="/partos/crear?cerda_id=' + a.cerda_id + '" class="block text-[11px] font-semibold text-emerald-600 hover:text-emerald-700 hover:underline">Registrar Parto \u2192</a></div></li>';
+                            });
+                        } else if (pl) {
+                            pl.innerHTML = '<li class="text-xs text-gray-500 py-4 text-center">No hay partos estimados en los pr\u00f3ximos d\u00edas.</li>';
+                        }
+
+                        var cl = limpiarLista('alertas-celos-list');
+                        if (cl && data.celos.length > 0) {
+                            data.celos.forEach(function(a) {
+                                var dias = a.dias_restantes;
+                                var texto = dias === 0 ? 'Hoy' : dias === 1 ? 'Mañana' : 'En ' + dias + ' d\u00edas';
+                                cl.innerHTML += '<li class="bg-white p-3 rounded-lg border border-amber-100 shadow-sm flex justify-between items-center">' +
+                                    '<div><div class="text-xs font-bold text-gray-800">Sow ' + a.cerda_codigo + ' (' + (a.cerda_nombre || 'Sin nombre') + ')</div>' +
+                                    '<div class="text-[11px] text-gray-500">Estimado: ' + a.fecha_estimada + '</div></div>' +
+                                    '<div class="text-right"><span class="inline-block text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md mb-1.5">' + texto + '</span>' +
+                                    '<a href="/inseminaciones/crear?cerda_id=' + a.cerda_id + '" class="block text-[11px] font-semibold text-amber-600 hover:text-amber-700 hover:underline">Inseminar \u2192</a></div></li>';
+                            });
+                        } else if (cl) {
+                            cl.innerHTML = '<li class="text-xs text-gray-500 py-4 text-center">No hay retornos a celo previstos para los siguientes d\u00edas.</li>';
+                        }
+
+                        var vl = limpiarLista('alertas-vacunas-list');
+                        if (vl && data.vacunas.length > 0) {
+                            data.vacunas.forEach(function(a) {
+                                vl.innerHTML += '<li class="bg-white p-3 rounded-lg border border-blue-100 shadow-sm flex justify-between items-center">' +
+                                    '<div><div class="text-xs font-bold text-gray-800">Sow ' + a.cerda_codigo + '</div>' +
+                                    '<div class="text-[11px] text-gray-500 font-semibold">' + a.vacuna + '</div></div>' +
+                                    '<div class="text-right"><span class="inline-block text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md">' + a.proxima_dosis + '</span>' +
+                                    '<a href="/cerdas/' + a.cerda_id + '#vacunas" class="block text-[11px] font-semibold text-blue-600 hover:text-blue-700 hover:underline mt-1">Ver ficha \u2192</a></div></li>';
+                            });
+                        } else if (vl) {
+                            vl.innerHTML = '<li class="text-xs text-gray-500 py-4 text-center">No hay vacunas programadas en los pr\u00f3ximos d\u00edas.</li>';
+                        }
+                    })
+                    .catch(function() {});
+            }
+
+            actualizarAlertas();
+            setInterval(actualizarAlertas, 30000);
+        })();
     </script>
     @endpush
 </x-app-layout>

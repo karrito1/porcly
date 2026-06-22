@@ -16,6 +16,7 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/alertas/json', [DashboardController::class, 'alertasJson'])->name('dashboard.alertas.json');
 
     // CRUD Cerdas
     Route::resource('cerdas', CerdaController::class);
