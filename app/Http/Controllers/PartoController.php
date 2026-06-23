@@ -6,6 +6,7 @@ use App\Models\Parto;
 use App\Models\Cerda;
 use App\Models\Inseminacion;
 use App\Models\Lechon;
+use App\Events\AlertaCreada;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -95,6 +96,8 @@ class PartoController extends Controller
                 'numero_partos' => $cerda->numero_partos + 1
             ]);
         });
+
+        AlertaCreada::dispatch('parto', "Parto registrado — {$request->lechones_vivos} lechones vivos", $cerda->codigo, $cerda->nombre);
 
         return redirect()->route('partos.index')
             ->with('success', 'Parto registrado. Cerda ' . $cerda->codigo . ' en lactancia. Se crearon ' . $request->lechones_vivos . ' registros de lechones.');

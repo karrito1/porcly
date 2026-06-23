@@ -8,6 +8,7 @@ use App\Models\Alimento;
 use App\Models\Vacunacion;
 use App\Models\Tratamiento;
 use App\Models\Destete;
+use App\Events\AlertaCreada;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -40,7 +41,11 @@ class QuickRecordController extends Controller
             'notas' => 'nullable|string',
         ]);
 
-        Vacunacion::create($request->all());
+        $vacunacion = Vacunacion::create($request->all());
+
+        if ($vacunacion->cerda) {
+            AlertaCreada::dispatch('vacuna', "Vacuna '{$vacunacion->vacuna}' aplicada", $vacunacion->cerda->codigo, $vacunacion->cerda->nombre);
+        }
 
         return redirect()->back()->with('success', 'Registro de vacunación guardado.');
     }

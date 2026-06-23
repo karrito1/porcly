@@ -97,6 +97,48 @@
             </script>
         @endif
 
+        @auth
+        <script>
+            function showRealtimeToast(icon, message) {
+                var existing = document.getElementById('realtime-toast');
+                if (existing) existing.remove();
+
+                var toast = document.createElement('div');
+                toast.id = 'realtime-toast';
+                toast.className = 'fixed bottom-4 right-4 z-[9999] max-w-sm translate-x-full opacity-0 transition-all duration-500 ease-out';
+                toast.innerHTML =
+                    '<div class="border px-5 py-4 rounded-xl shadow-lg flex items-center gap-3 bg-brand-500 border-brand-600 text-white">' +
+                    '<span class="text-lg shrink-0">' + icon + '</span>' +
+                    '<span class="text-sm font-medium">' + message + '</span>' +
+                    '<button onclick="dismissRealtimeToast()" class="ml-auto shrink-0 opacity-60 hover:opacity-100 transition-opacity" aria-label="Cerrar">' +
+                    '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button></div>';
+
+                document.body.appendChild(toast);
+
+                requestAnimationFrame(function() {
+                    toast.classList.remove('translate-x-full', 'opacity-0');
+                    toast.classList.add('translate-x-0', 'opacity-100');
+                });
+
+                setTimeout(dismissRealtimeToast, 6000);
+            }
+
+            function dismissRealtimeToast() {
+                var toast = document.getElementById('realtime-toast');
+                if (!toast) return;
+                toast.classList.remove('translate-x-0', 'opacity-100');
+                toast.classList.add('translate-x-full', 'opacity-0');
+                setTimeout(function() { toast.remove(); }, 500);
+            }
+
+            if (window.Echo) {
+                Echo.private('alertas.produccion')
+                    .listen('.alerta.creada', function (e) {
+                        showRealtimeToast(e.icono, e.mensaje + ' — ' + e.cerdaCodigo);
+                    });
+            }
+        </script>
+        @endauth
         @stack('scripts')
     </body>
 </html>
