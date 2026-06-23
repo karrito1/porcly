@@ -24,6 +24,12 @@
                     <x-nav-link :href="route('partos.index')" :active="request()->routeIs('partos.*')">
                         {{ __('Partos') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('calendario.index')" :active="request()->routeIs('calendario.*')">
+                        {{ __('Calendario') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('verracos.index')" :active="request()->routeIs('verracos.*')">
+                        {{ __('Verracos') }}
+                    </x-nav-link>
                     @can('users.create')
                         <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
                             {{ __('Usuarios') }}
@@ -110,6 +116,12 @@ Cerrar sesión
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('partos.index')" :active="request()->routeIs('partos.*')">
                 {{ __('Partos') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('calendario.index')" :active="request()->routeIs('calendario.*')">
+                {{ __('Calendario') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('verracos.index')" :active="request()->routeIs('verracos.*')">
+                {{ __('Verracos') }}
             </x-responsive-nav-link>
             @can('users.create')
                 <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">

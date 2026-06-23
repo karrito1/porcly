@@ -2,10 +2,13 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CerdaController;
 use App\Http\Controllers\InseminacionController;
 use App\Http\Controllers\PartoController;
 use App\Http\Controllers\QuickRecordController;
+use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\VerracoController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +20,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/alertas/json', [DashboardController::class, 'alertasJson'])->name('dashboard.alertas.json');
+    Route::get('/reportes/mensual', [ReportController::class, 'reporteMensual'])->name('reportes.mensual');
+    Route::get('/calendario', [CalendarController::class, 'index'])->name('calendario.index');
+    Route::get('/calendario/eventos/json', [CalendarController::class, 'eventosJson'])->name('calendario.eventos.json');
+
+    // CRUD Verracos
+    Route::resource('verracos', VerracoController::class);
 
     // CRUD Cerdas
     Route::resource('cerdas', CerdaController::class);
