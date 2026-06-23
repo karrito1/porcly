@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cerda;
 use App\Models\Inseminacion;
+use App\Events\AlertaCreada;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -85,6 +86,8 @@ class InseminacionController extends Controller
         // Usualmente se asume gestante hasta diagnóstico.
         $cerda = Cerda::find($request->cerda_id);
         $cerda->update(['estado' => 'gestante']);
+
+        AlertaCreada::dispatch('inseminacion', "Inseminación registrada — Parto estimado: {$fechaPartoEstimada->format('d/m/Y')}", $cerda->codigo, $cerda->nombre);
 
         return redirect()->route('inseminaciones.index')
             ->with('success', 'Inseminación registrada. Parto estimado: '.$fechaPartoEstimada->format('d/m/Y').'.');
