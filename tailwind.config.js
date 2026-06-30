@@ -9,6 +9,19 @@ export default {
         './resources/views/**/*.blade.php',
     ],
 
+    safelist: [
+        'bg-brand-50', 'bg-brand-100', 'bg-brand-200', 'bg-brand-300',
+        'bg-brand-400', 'bg-brand-500', 'bg-brand-600', 'bg-brand-700',
+        'bg-brand-800', 'bg-brand-900',
+        'text-brand-50', 'text-brand-100', 'text-brand-200', 'text-brand-300',
+        'text-brand-400', 'text-brand-500', 'text-brand-600', 'text-brand-700',
+        'text-brand-800', 'text-brand-900',
+        'border-brand-50', 'border-brand-100', 'border-brand-200', 'border-brand-300',
+        'border-brand-400', 'border-brand-500', 'border-brand-600', 'border-brand-700',
+        'border-brand-800', 'border-brand-900',
+        'from-brand-50', 'via-brand-50', 'to-brand-50',
+    ],
+
     theme: {
         extend: {
             fontFamily: {
