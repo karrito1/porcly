@@ -108,7 +108,7 @@
                                     </td>
                                     <td class="px-6 py-4 text-right text-sm">
                                         <div class="flex flex-wrap justify-end gap-2">
-                                            <button type="button" data-cerda='@json($cerdaData)' onclick="openCerdaShowModal(JSON.parse(this.dataset.cerda))" class="inline-flex items-center rounded-lg border border-gray-200 bg-gray-50 px-3 py-1 text-xs font-semibold text-gray-700 shadow-sm transition hover:bg-gray-100">Ver</button>
+                                            <a href="{{ route('cerdas.show', $cerda->id) }}" class="inline-flex items-center rounded-lg border border-gray-200 bg-gray-50 px-3 py-1 text-xs font-semibold text-gray-700 shadow-sm transition hover:bg-gray-100">Ver</a>
                                             <button type="button" data-cerda='@json($cerdaData)' onclick="openCerdaEditModal(JSON.parse(this.dataset.cerda))" class="inline-flex items-center rounded-lg border border-gray-200 bg-white px-3 py-1 text-xs font-semibold text-gray-700 shadow-sm transition hover:bg-gray-50">Editar</button>
                                             <button type="button" data-cerda='@json($cerdaData)' onclick="openCerdaDeleteModal(JSON.parse(this.dataset.cerda))" class="inline-flex items-center rounded-lg border border-rose-200 bg-rose-50 px-3 py-1 text-xs font-semibold text-rose-700 shadow-sm transition hover:bg-rose-100">Eliminar</button>
                                         </div>
