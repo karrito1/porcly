@@ -11,6 +11,8 @@ class CerdaController extends Controller
     public function index(Request $request)
     {
         $query = Cerda::query();
+        $modal = $request->input('modal');
+        $modalCerdaData = null;
 
         // Búsqueda por código o nombre
         if ($request->filled('buscar')) {
@@ -35,7 +37,27 @@ class CerdaController extends Controller
         
         $razas = Cerda::distinct()->whereNotNull('raza')->pluck('raza');
 
-        return view('cerdas.index', compact('cerdas', 'razas'));
+        if ($request->filled('cerda') && in_array($modal, ['edit', 'show', 'delete'], true)) {
+            $modalCerda = Cerda::find($request->input('cerda'));
+
+            if ($modalCerda) {
+                $modalCerdaData = [
+                    'id' => $modalCerda->id,
+                    'codigo' => $modalCerda->codigo,
+                    'nombre' => $modalCerda->nombre,
+                    'raza' => $modalCerda->raza,
+                    'estado' => $modalCerda->estado,
+                    'fecha_nacimiento' => $modalCerda->fecha_nacimiento?->format('Y-m-d'),
+                    'fecha_nacimiento_texto' => $modalCerda->fecha_nacimiento?->format('d/m/Y'),
+                    'peso_actual' => $modalCerda->peso_actual,
+                    'numero_partos' => $modalCerda->numero_partos,
+                    'notas' => $modalCerda->notas,
+                    'edad_meses' => $modalCerda->fecha_nacimiento ? (int) now()->diffInMonths($modalCerda->fecha_nacimiento) : null,
+                ];
+            }
+        }
+
+        return view('cerdas.index', compact('cerdas', 'razas', 'modal', 'modalCerdaData'));
     }
 
     public function create()
@@ -75,6 +97,7 @@ class CerdaController extends Controller
     {
         // Cargar relaciones
         $cerda->load([
+            'inseminaciones.verraco',
             'inseminaciones' => function($q) { $q->orderBy('fecha_inseminacion', 'desc'); },
             'partos' => function($q) { $q->orderBy('fecha_parto', 'desc'); },
             'alimentos' => function($q) { $q->orderBy('fecha', 'desc')->take(10); },
@@ -112,7 +135,7 @@ class CerdaController extends Controller
             'notas' => $request->notas,
         ]);
 
-        return redirect()->route('cerdas.show', $cerda)
+        return redirect()->route('cerdas.index')
             ->with('success', 'Datos de la cerda actualizados.');
     }
 

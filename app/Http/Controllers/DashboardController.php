@@ -88,7 +88,7 @@ class DashboardController extends Controller
                 ];
             });
 
-        $actividadReciente = $ultimosPartos->merge($ultimasInseminaciones)
+        $actividadReciente = collect($ultimosPartos)->merge($ultimasInseminaciones)
             ->sortByDesc('fecha')
             ->take(8)
             ->values();

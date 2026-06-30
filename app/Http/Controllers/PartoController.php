@@ -25,7 +25,9 @@ class PartoController extends Controller
 
         $partos = $query->orderBy('fecha_parto', 'desc')->paginate(10)->withQueryString();
 
-        return view('partos.index', compact('partos'));
+        $cerdasGestantes = Cerda::where('estado', 'gestante')->orderBy('codigo')->get();
+
+        return view('partos.index', compact('partos', 'cerdasGestantes'));
     }
 
     public function create(Request $request)
@@ -99,7 +101,10 @@ class PartoController extends Controller
 
         AlertaCreada::dispatch('parto', "Parto registrado — {$request->lechones_vivos} lechones vivos", $cerda->codigo, $cerda->nombre);
 
-        return redirect()->route('partos.index')
-            ->with('success', 'Parto registrado. Cerda ' . $cerda->codigo . ' en lactancia. Se crearon ' . $request->lechones_vivos . ' registros de lechones.');
+        $redirect = $request->filled('calendar_modal')
+            ? redirect()->route('calendario.index')
+            : redirect()->route('partos.index');
+
+        return $redirect->with('success', 'Parto registrado. Cerda ' . $cerda->codigo . ' en lactancia. Se crearon ' . $request->lechones_vivos . ' registros de lechones.');
     }
 }

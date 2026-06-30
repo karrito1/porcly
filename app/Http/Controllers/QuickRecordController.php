@@ -47,7 +47,11 @@ class QuickRecordController extends Controller
             AlertaCreada::dispatch('vacuna', "Vacuna '{$vacunacion->vacuna}' aplicada", $vacunacion->cerda->codigo, $vacunacion->cerda->nombre);
         }
 
-        return redirect()->back()->with('success', 'Registro de vacunación guardado.');
+        $redirect = $request->filled('calendar_modal')
+            ? redirect()->route('calendario.index')
+            : redirect()->back();
+
+        return $redirect->with('success', 'Registro de vacunación guardado.');
     }
 
     public function storeTratamiento(Request $request)

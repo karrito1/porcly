@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cerda;
 use App\Models\Inseminacion;
+use App\Models\Verraco;
 use App\Events\AlertaCreada;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ class InseminacionController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Inseminacion::with('cerda');
+        $query = Inseminacion::with('cerda', 'verraco');
 
         // Scope: activas (sin parto registrado) por defecto
         $scope = $request->input('scope', 'activas');
@@ -44,15 +45,19 @@ class InseminacionController extends Controller
 
         $inseminaciones = $query->orderBy('fecha_inseminacion', 'desc')->paginate(10)->withQueryString();
 
-        return view('inseminaciones.index', compact('inseminaciones', 'scope'));
+        $cerdasDisponibles = Cerda::whereNotIn('estado', ['descarte', 'gestante', 'lactante'])->orderBy('codigo')->get();
+        $verracos = Verraco::orderBy('codigo')->get();
+
+        return view('inseminaciones.index', compact('inseminaciones', 'scope', 'cerdasDisponibles', 'verracos'));
     }
 
     public function create(Request $request)
     {
         $cerdas = Cerda::whereNotIn('estado', ['descarte', 'gestante', 'lactante'])->orderBy('codigo')->get();
+        $verracos = Verraco::orderBy('codigo')->get();
         $selected_cerda_id = $request->input('cerda_id');
 
-        return view('inseminaciones.create', compact('cerdas', 'selected_cerda_id'));
+        return view('inseminaciones.create', compact('cerdas', 'verracos', 'selected_cerda_id'));
     }
 
     public function store(Request $request)
@@ -61,6 +66,7 @@ class InseminacionController extends Controller
             'cerda_id' => 'required|exists:cerdas,id',
             'fecha_inseminacion' => 'required|date',
             'tipo' => 'required|in:natural,artificial',
+            'verraco_id' => 'nullable|exists:verracos,id',
             'verraco' => 'nullable|string|max:100',
             'notas' => 'nullable|string',
         ]);
@@ -75,6 +81,7 @@ class InseminacionController extends Controller
             'cerda_id' => $request->cerda_id,
             'fecha_inseminacion' => $fechaInseminacion,
             'tipo' => $request->tipo,
+            'verraco_id' => $request->verraco_id,
             'verraco' => $request->verraco,
             'fecha_parto_estimada' => $fechaPartoEstimada,
             'fecha_proximo_celo' => $fechaProximoCelo,
@@ -89,8 +96,11 @@ class InseminacionController extends Controller
 
         AlertaCreada::dispatch('inseminacion', "Inseminación registrada — Parto estimado: {$fechaPartoEstimada->format('d/m/Y')}", $cerda->codigo, $cerda->nombre);
 
-        return redirect()->route('inseminaciones.index')
-            ->with('success', 'Inseminación registrada. Parto estimado: '.$fechaPartoEstimada->format('d/m/Y').'.');
+        $redirect = $request->filled('calendar_modal')
+            ? redirect()->route('calendario.index')
+            : redirect()->route('inseminaciones.index');
+
+        return $redirect->with('success', 'Inseminación registrada. Parto estimado: '.$fechaPartoEstimada->format('d/m/Y').'.');
     }
 
     public function confirm(Request $request, Inseminacion $inseminacion)

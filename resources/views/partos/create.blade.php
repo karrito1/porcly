@@ -43,7 +43,7 @@
                         @if($cerdas->isEmpty())
                             <p class="text-xs text-amber-600 mt-2 font-medium bg-amber-50 border border-amber-200 rounded-lg p-3">
                                 No hay cerdas actualmente en estado "Gestante". 
-                                <a href="{{ route('inseminaciones.create') }}" class="underline font-bold">Registrar e inseminar una cerda</a> primero.
+                                <a href="{{ route('inseminaciones.index', ['modal' => 'create']) }}" class="underline font-bold">Registrar e inseminar una cerda</a> primero.
                             </p>
                         @endif
                     </div>

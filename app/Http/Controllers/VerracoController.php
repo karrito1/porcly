@@ -7,10 +7,29 @@ use Illuminate\Http\Request;
 
 class VerracoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $verracos = Verraco::orderBy('codigo')->paginate(10);
-        return view('verracos.index', compact('verracos'));
+        $modal = $request->input('modal');
+        $modalVerracoData = null;
+
+        if ($request->filled('verraco') && in_array($modal, ['edit', 'delete'], true)) {
+            $modalVerraco = Verraco::find($request->input('verraco'));
+            if ($modalVerraco) {
+                $modalVerracoData = [
+                    'id' => $modalVerraco->id,
+                    'codigo' => $modalVerraco->codigo,
+                    'nombre' => $modalVerraco->nombre,
+                    'raza' => $modalVerraco->raza,
+                    'fecha_nacimiento' => $modalVerraco->fecha_nacimiento?->format('Y-m-d'),
+                    'peso' => $modalVerraco->peso,
+                    'procedencia' => $modalVerraco->procedencia,
+                    'notas' => $modalVerraco->notas,
+                ];
+            }
+        }
+
+        return view('verracos.index', compact('verracos', 'modal', 'modalVerracoData'));
     }
 
     public function create()

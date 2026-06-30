@@ -18,6 +18,7 @@ class UserController extends Controller
 
         return view('users.index', [
             'users' => User::with('roles')->latest()->get(),
+            'roles' => Role::all(),
         ]);
     }
 

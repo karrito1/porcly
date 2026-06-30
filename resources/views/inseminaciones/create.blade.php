@@ -43,7 +43,7 @@
                         @if($cerdas->isEmpty())
                             <p class="text-xs text-amber-600 mt-2 font-medium bg-amber-50 border border-amber-200 rounded-lg p-3">
                                 No hay cerdas disponibles para inseminación (deben estar activas y no estar gestantes ni lactantes). 
-                                <a href="{{ route('cerdas.create') }}" class="underline font-bold">Registrar nueva cerda</a>.
+                                <a href="{{ route('cerdas.index', ['modal' => 'create']) }}" class="underline font-bold">Registrar nueva cerda</a>.
                             </p>
                         @endif
                     </div>
@@ -72,12 +72,28 @@
                     </div>
 
                     <!-- Verraco -->
-                    <div>
-                        <label for="verraco" class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Verraco (Padre / Registro de Semen)</label>
-                        <input type="text" name="verraco" id="verraco" value="{{ old('verraco') }}" placeholder="Código o nombre del macho progenitor (ej. V-102)" class="w-full text-sm rounded-lg border-gray-300 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50">
-                        @error('verraco')
-                            <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
-                        @enderror
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="verraco_id" class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Verraco Registrado</label>
+                            <select name="verraco_id" id="verraco_id" class="w-full text-sm rounded-lg border-gray-300 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50">
+                                <option value="">-- Seleccionar Verraco (opcional) --</option>
+                                @foreach($verracos as $verraco)
+                                    <option value="{{ $verraco->id }}" {{ old('verraco_id') == $verraco->id ? 'selected' : '' }}>
+                                        {{ $verraco->codigo }} - {{ $verraco->nombre ?? 'Sin Nombre' }} ({{ $verraco->raza ?? 'N/D' }})
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('verraco_id')
+                                <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div>
+                            <label for="verraco" class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Otro Verraco / Lote (manual)</label>
+                            <input type="text" name="verraco" id="verraco" value="{{ old('verraco') }}" placeholder="Código del verraco o lote de dosis manual" class="w-full text-sm rounded-lg border-gray-300 focus:border-brand-500 focus:ring focus:ring-brand-200 focus:ring-opacity-50">
+                            @error('verraco')
+                                <p class="text-xs text-rose-600 mt-1 font-medium">{{ $message }}</p>
+                            @enderror
+                        </div>
                     </div>
 
                     <!-- Notas -->
