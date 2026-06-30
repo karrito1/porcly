@@ -5,18 +5,6 @@
                 <h2 class="text-xl font-bold leading-tight text-gray-800">Calendario de eventos</h2>
                 <p class="mt-1 text-sm text-gray-500">Vista compacta de partos, celos y vacunaciones, todo en un solo lugar.</p>
             </div>
-
-            <div class="hidden gap-2 lg:flex">
-                <button type="button" onclick="openCalendarPartoModal()" class="inline-flex items-center rounded-lg bg-brand-500 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-brand-600">
-                    Registrar parto
-                </button>
-                <button type="button" onclick="openCalendarInseminacionModal()" class="inline-flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 text-xs font-semibold text-gray-700 shadow-sm transition hover:bg-gray-50">
-                    Registrar inseminación
-                </button>
-                <button type="button" onclick="openCalendarVacunacionModal()" class="inline-flex items-center rounded-lg border border-gray-200 bg-white px-4 py-2 text-xs font-semibold text-gray-700 shadow-sm transition hover:bg-gray-50">
-                    Registrar vacunación
-                </button>
-            </div>
         </div>
     </x-slot>
 
@@ -99,44 +87,23 @@
 
     <div class="py-5 lg:py-6">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="grid gap-4 sm:grid-cols-3">
-                <div class="rounded-2xl border border-emerald-100 bg-emerald-50/70 p-4 shadow-sm">
-                    <p class="text-xs font-semibold uppercase tracking-widest text-emerald-700">Partos próximos</p>
-                    <p class="mt-2 text-3xl font-extrabold text-emerald-900">{{ $resumenPartos }}</p>
-                </div>
-                <div class="rounded-2xl border border-amber-100 bg-amber-50/70 p-4 shadow-sm">
-                    <p class="text-xs font-semibold uppercase tracking-widest text-amber-700">Celos próximos</p>
-                    <p class="mt-2 text-3xl font-extrabold text-amber-900">{{ $resumenCelos }}</p>
-                </div>
-                <div class="rounded-2xl border border-blue-100 bg-blue-50/70 p-4 shadow-sm">
-                    <p class="text-xs font-semibold uppercase tracking-widest text-blue-700">Vacunas próximas</p>
-                    <p class="mt-2 text-3xl font-extrabold text-blue-900">{{ $resumenVacunas }}</p>
-                </div>
-            </div>
-
-            <div class="mt-4 grid gap-5 xl:grid-cols-[minmax(0,1fr)_20rem] calendar-shell">
+            <div class="grid gap-5 xl:grid-cols-[minmax(0,1fr)_20rem] calendar-shell">
                 <section class="flex min-h-0 flex-col rounded-3xl border border-gray-200/80 bg-white p-4 shadow-sm">
-                    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 pb-4">
+                    <div class="min-h-[34rem] flex-1 pt-0">
+                        <div id="calendar"></div>
+                    </div>
+                </section>
+
+                <aside class="flex min-h-0 flex-col gap-4">
+                    <div class="rounded-3xl border border-gray-200/80 bg-white p-4 shadow-sm">
                         <div class="flex flex-wrap gap-2 text-[11px] font-semibold">
                             <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-emerald-700"><span class="h-2 w-2 rounded-full bg-emerald-500"></span>Partos realizados</span>
                             <span class="inline-flex items-center gap-1 rounded-full bg-brand-50 px-3 py-1 text-brand-700"><span class="h-2 w-2 rounded-full bg-[#f4b08a]"></span>Partos próximos</span>
                             <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 text-amber-700"><span class="h-2 w-2 rounded-full bg-amber-500"></span>Celos</span>
                             <span class="inline-flex items-center gap-1 rounded-full bg-blue-50 px-3 py-1 text-blue-700"><span class="h-2 w-2 rounded-full bg-blue-500"></span>Vacunas</span>
                         </div>
-
-                        <div class="flex gap-2 lg:hidden">
-                            <button type="button" onclick="openCalendarPartoModal()" class="rounded-lg bg-brand-500 px-3 py-2 text-xs font-semibold text-white shadow-sm">Parto</button>
-                            <button type="button" onclick="openCalendarInseminacionModal()" class="rounded-lg border border-gray-200 px-3 py-2 text-xs font-semibold text-gray-700">Inseminación</button>
-                            <button type="button" onclick="openCalendarVacunacionModal()" class="rounded-lg border border-gray-200 px-3 py-2 text-xs font-semibold text-gray-700">Vacuna</button>
-                        </div>
                     </div>
 
-                    <div class="min-h-[34rem] flex-1 pt-4">
-                        <div id="calendar"></div>
-                    </div>
-                </section>
-
-                <aside class="flex min-h-0 flex-col gap-4">
                     <div class="rounded-3xl border border-gray-200/80 bg-white p-4 shadow-sm">
                         <div class="mb-3 flex items-center justify-between">
                             <div>
@@ -161,58 +128,17 @@
                         </div>
                     </div>
 
-                    <div class="rounded-3xl border border-gray-200/80 bg-white p-4 shadow-sm">
-                        <h3 class="text-sm font-bold text-gray-900">Próximos partos</h3>
-                        <div class="mt-3 space-y-2">
-                            @forelse ($partosProximos as $evento)
-                                <div class="calendar-list-item rounded-2xl bg-emerald-50/60 px-3 py-2">
-                                    <span class="h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
-                                    <div>
-                                        <p class="text-xs font-semibold text-gray-900">{{ $evento['cerda_codigo'] }} {{ $evento['cerda_nombre'] ? '• ' . $evento['cerda_nombre'] : '' }}</p>
-                                        <p class="text-[11px] text-gray-500">{{ $evento['fecha_formateada'] }}</p>
-                                    </div>
-                                    <span class="rounded-full bg-white px-2 py-1 text-[10px] font-bold text-emerald-700">Parto</span>
-                                </div>
-                            @empty
-                                <p class="text-xs text-gray-500">No hay partos próximos.</p>
-                            @endforelse
-                        </div>
+                    <div class="rounded-2xl border border-emerald-100 bg-emerald-50/70 p-4 shadow-sm">
+                        <p class="text-xs font-semibold uppercase tracking-widest text-emerald-700">Partos próximos</p>
+                        <p class="mt-2 text-3xl font-extrabold text-emerald-900">{{ $resumenPartos }}</p>
                     </div>
-
-                    <div class="rounded-3xl border border-gray-200/80 bg-white p-4 shadow-sm">
-                        <h3 class="text-sm font-bold text-gray-900">Próximos celos</h3>
-                        <div class="mt-3 space-y-2">
-                            @forelse ($celosProximos as $evento)
-                                <div class="calendar-list-item rounded-2xl bg-amber-50/60 px-3 py-2">
-                                    <span class="h-2.5 w-2.5 rounded-full bg-amber-500"></span>
-                                    <div>
-                                        <p class="text-xs font-semibold text-gray-900">{{ $evento['cerda_codigo'] }} {{ $evento['cerda_nombre'] ? '• ' . $evento['cerda_nombre'] : '' }}</p>
-                                        <p class="text-[11px] text-gray-500">{{ $evento['fecha_formateada'] }}</p>
-                                    </div>
-                                    <span class="rounded-full bg-white px-2 py-1 text-[10px] font-bold text-amber-700">Celo</span>
-                                </div>
-                            @empty
-                                <p class="text-xs text-gray-500">No hay celos próximos.</p>
-                            @endforelse
-                        </div>
+                    <div class="rounded-2xl border border-amber-100 bg-amber-50/70 p-4 shadow-sm">
+                        <p class="text-xs font-semibold uppercase tracking-widest text-amber-700">Celos próximos</p>
+                        <p class="mt-2 text-3xl font-extrabold text-amber-900">{{ $resumenCelos }}</p>
                     </div>
-
-                    <div class="rounded-3xl border border-gray-200/80 bg-white p-4 shadow-sm">
-                        <h3 class="text-sm font-bold text-gray-900">Próximas vacunas</h3>
-                        <div class="mt-3 space-y-2">
-                            @forelse ($vacunasProximas as $evento)
-                                <div class="calendar-list-item rounded-2xl bg-blue-50/60 px-3 py-2">
-                                    <span class="h-2.5 w-2.5 rounded-full bg-blue-500"></span>
-                                    <div>
-                                        <p class="text-xs font-semibold text-gray-900">{{ $evento['cerda_codigo'] }} {{ $evento['cerda_nombre'] ? '• ' . $evento['cerda_nombre'] : '' }}</p>
-                                        <p class="text-[11px] text-gray-500">{{ $evento['detalle'] }}</p>
-                                    </div>
-                                    <span class="rounded-full bg-white px-2 py-1 text-[10px] font-bold text-blue-700">{{ $evento['fecha_formateada'] }}</span>
-                                </div>
-                            @empty
-                                <p class="text-xs text-gray-500">No hay vacunas próximas.</p>
-                            @endforelse
-                        </div>
+                    <div class="rounded-2xl border border-blue-100 bg-blue-50/70 p-4 shadow-sm">
+                        <p class="text-xs font-semibold uppercase tracking-widest text-blue-700">Vacunas próximas</p>
+                        <p class="mt-2 text-3xl font-extrabold text-blue-900">{{ $resumenVacunas }}</p>
                     </div>
                 </aside>
             </div>

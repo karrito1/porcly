@@ -14,7 +14,7 @@
                 <form action="{{ route('reportes.mensual') }}" method="GET" class="inline-flex items-center gap-1">
                     <select name="mes" class="text-xs border border-gray-200 rounded-lg px-2 py-2 bg-white text-gray-700 shadow-sm focus:ring-brand-500 focus:border-brand-500">
                         @foreach(range(1, 12) as $m)
-                            <option value="{{ $m }}" @selected($m == now()->month)>{{ now()->setMonth($m)->translatedFormat('F') }}</option>
+                            <option value="{{ $m }}" @selected($m == now()->month)>{{ \Carbon\Carbon::create(null, $m, 1)->translatedFormat('F') }}</option>
                         @endforeach
                     </select>
                     <input type="hidden" name="anio" value="{{ now()->year }}">
