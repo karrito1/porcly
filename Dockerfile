@@ -21,7 +21,8 @@ RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get install -y nodejs \
     && npm install && npm run build
 
-RUN composer install --no-interaction --no-dev --optimize-autoloader \
+RUN git config --global --add safe.directory /var/www/html \
+    && composer install --no-interaction --no-dev --optimize-autoloader \
     && php artisan storage:link \
     && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
