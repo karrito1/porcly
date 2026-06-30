@@ -16,8 +16,8 @@ class ReportController extends Controller
         $mes = (int) $request->input('mes', now()->month);
         $anio = (int) $request->input('anio', now()->year);
 
-        $fechaInicio = now()->setMonth($mes)->setYear($anio)->startOfMonth();
-        $fechaFin = now()->setMonth($mes)->setYear($anio)->endOfMonth();
+        $fechaInicio = \Carbon\Carbon::create($anio, $mes, 1)->startOfDay();
+        $fechaFin = \Carbon\Carbon::create($anio, $mes, 1)->endOfMonth();
 
         $totalCerdas = Cerda::count();
         $cerdasGestantes = Cerda::where('estado', 'gestante')->count();
@@ -59,7 +59,7 @@ class ReportController extends Controller
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
 
-        $nombreMes = ucfirst(now()->setMonth($mes)->translatedFormat('F'));
+        $nombreMes = ucfirst(\Carbon\Carbon::create($anio, $mes, 1)->translatedFormat('F'));
         return response($dompdf->output(), 200, [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'attachment; filename="reporte-'.$nombreMes.'-'.$anio.'.pdf"',
