@@ -1,4 +1,4 @@
-FROM php:8.3-apache
+FROM php:8.4-apache
 
 RUN apt-get update && apt-get install -y \
     git curl zip unzip libpng-dev libonig-dev libxml2-dev libzip-dev libjpeg62-turbo-dev libfreetype6-dev \
@@ -22,7 +22,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && npm install && npm run build
 
 RUN git config --global --add safe.directory /var/www/html \
-    && composer install --no-interaction --no-dev --optimize-autoloader \
+    && composer install --no-interaction --no-dev --optimize-autoloader --ignore-platform-req=php \
     && php artisan storage:link \
     && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
