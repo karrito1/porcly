@@ -5,10 +5,10 @@
                 {{ __('Panel de Control Porcícola') }}
             </h2>
             <div class="flex gap-2">
-                <a href="{{ route('cerdas.create') }}" class="inline-flex items-center px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors duration-200">
+                <a href="{{ route('cerdas.index', ['modal' => 'create']) }}" class="inline-flex items-center px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors duration-200">
                     Registrar Cerda
                 </a>
-                <a href="{{ route('inseminaciones.create') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-950 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors duration-200">
+                <a href="{{ route('inseminaciones.index', ['modal' => 'create']) }}" class="inline-flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-950 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors duration-200">
                     Registrar Inseminación
                 </a>
                 <form action="{{ route('reportes.mensual') }}" method="GET" class="inline-flex items-center gap-1">
@@ -192,7 +192,7 @@
                                                         En {{ $diff }} días
                                                     @endif
                                                 </span>
-                                                <a href="{{ route('partos.create', ['cerda_id' => $alerta->cerda_id]) }}" class="block text-[11px] font-semibold text-emerald-600 hover:text-emerald-700 hover:underline">
+                                                <a href="{{ route('partos.index', ['cerda_id' => $alerta->cerda_id, 'modal' => 'create']) }}" class="block text-[11px] font-semibold text-emerald-600 hover:text-emerald-700 hover:underline">
                                                     Registrar Parto →
                                                 </a>
                                             </div>
@@ -233,7 +233,7 @@
                                                         En {{ $diff }} días
                                                     @endif
                                                 </span>
-                                                <a href="{{ route('inseminaciones.create', ['cerda_id' => $alerta->cerda_id]) }}" class="block text-[11px] font-semibold text-amber-600 hover:text-amber-700 hover:underline">
+                                                <a href="{{ route('inseminaciones.index', ['cerda_id' => $alerta->cerda_id, 'modal' => 'create']) }}" class="block text-[11px] font-semibold text-amber-600 hover:text-amber-700 hover:underline">
                                                     Inseminar →
                                                 </a>
                                             </div>

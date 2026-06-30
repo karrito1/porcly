@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\Verraco;
 
 class Inseminacion extends Model
 {
@@ -13,7 +14,7 @@ class Inseminacion extends Model
     protected $table = 'inseminaciones';
 
     protected $fillable = [
-        'cerda_id', 'fecha_inseminacion', 'tipo', 'verraco',
+        'cerda_id', 'fecha_inseminacion', 'tipo', 'verraco_id', 'verraco',
         'fecha_parto_estimada', 'fecha_proximo_celo', 'exitosa', 'notas',
     ];
 
@@ -27,6 +28,11 @@ class Inseminacion extends Model
     public function cerda(): BelongsTo
     {
         return $this->belongsTo(Cerda::class);
+    }
+
+    public function verraco(): BelongsTo
+    {
+        return $this->belongsTo(Verraco::class);
     }
 
     public function parto(): HasOne

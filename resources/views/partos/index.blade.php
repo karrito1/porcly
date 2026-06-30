@@ -4,9 +4,9 @@
             <h2 class="font-bold text-xl text-gray-800 leading-tight">
                 {{ __('Control de Partos') }}
             </h2>
-            <a href="{{ route('partos.create') }}" class="inline-flex items-center px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors duration-200">
+            <button type="button" onclick="openPartoCreateModal()" class="inline-flex items-center px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors duration-200">
                 Registrar Parto
-            </a>
+            </button>
         </div>
     </x-slot>
 
@@ -111,4 +111,18 @@
 
         </div>
     </div>
+
+    @include('partos.partials.create-modal')
+
+    @push('scripts')
+        <script>
+            function openPartoCreateModal() {
+                window.dispatchEvent(new CustomEvent('open-modal', { detail: 'parto-create-modal' }));
+            }
+
+            @if(request('modal') === 'create')
+                document.addEventListener('DOMContentLoaded', function() { openPartoCreateModal(); });
+            @endif
+        </script>
+    @endpush
 </x-app-layout>

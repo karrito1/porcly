@@ -4,9 +4,9 @@
             <h2 class="font-bold text-xl text-gray-800 leading-tight">
                 {{ __('Gestión de Inseminaciones') }}
             </h2>
-            <a href="{{ route('inseminaciones.create') }}" class="inline-flex items-center px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors duration-200">
+            <button type="button" onclick="openInseminacionCreateModal()" class="inline-flex items-center px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors duration-200">
                 Registrar Inseminación
-            </a>
+            </button>
         </div>
     </x-slot>
 
@@ -93,7 +93,7 @@
                                         {{ $inseminacion->tipo }}
                                     </td>
                                     <td class="py-4 px-6 text-sm text-gray-700">
-                                        {{ $inseminacion->verraco ?? 'N/A' }}
+                                        {{ optional($inseminacion->verraco)->codigo ?? ($inseminacion->verraco ?? 'N/A') }}
                                     </td>
                                     <td class="py-4 px-6 text-sm text-gray-600">
                                         <div>{{ $inseminacion->fecha_parto_estimada->format('d/m/Y') }}</div>
@@ -202,4 +202,19 @@
 
         </div>
     </div>
+
+    @include('inseminaciones.partials.create-modal')
+    @include('cerdas.partials.create-modal')
+
+    @push('scripts')
+        <script>
+            function openInseminacionCreateModal() {
+                window.dispatchEvent(new CustomEvent('open-modal', { detail: 'inseminacion-create-modal' }));
+            }
+
+            @if(request('modal') === 'create')
+                document.addEventListener('DOMContentLoaded', function() { openInseminacionCreateModal(); });
+            @endif
+        </script>
+    @endpush
 </x-app-layout>
